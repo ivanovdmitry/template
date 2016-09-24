@@ -63,7 +63,7 @@ public:
   // Оператор меньше.
   bool operator < (Point2D const & obj) const
   {
-    if (m_x < obj.m_x) return true;
+    if (m_x != obj.m_x) return m_x < obj.m_x;
     return m_y < obj.m_y;
   }
 
