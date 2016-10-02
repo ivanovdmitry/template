@@ -14,11 +14,24 @@ public:
   Box2D(Box2D const & obj) : m_min(obj.m_min), m_max(obj.m_max) {}
 
 
-  Point2D GetCenter() const;
+  std::shared_ptr<Point2D>  GetCenter() const 
+  {
+    return std::make_shared<Point2D>((m_max->x() - m_min->x())/2.0f + m_min->x(), (m_max->y() - m_min->y())/2.0f + m_min->y());
+  }
 
-  void Move(Point2D const & point);
+  void SetCenter(std::shared_ptr<Point2D> const & point) 
+  {
+    float w = m_max->x() - m_min->x();
+    float h = m_max->y() - m_min->y();
 
-  bool Crossing(Box2D const & box) const;
+    m_min = std::make_shared<Point2D>(point->x() - w/2.0f, point->y() - h/2.0f);
+    m_max = std::make_shared<Point2D>(point->x() + w/2.0f, point->y() + h/2.0f);
+  }
+
+  friend bool Crossing(Box2D const & box1, Box2D const & box2)  
+  {
+    return !(box1.m_min->x() > box2.m_max->x() || box1.m_max->x() < box2.m_min->x() || box1.m_max->y() < box2.m_min->y() || box1.m_min->y() > box2.m_max->y());
+ }
 
   std::shared_ptr<Point2D> & GetMin() { return m_min; }
   std::shared_ptr<Point2D> & GetMax() { return m_max; }
