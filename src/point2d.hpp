@@ -144,6 +144,12 @@ public:
     }
   };
 
+  friend std::ostream & operator << (std::ostream & os, Point2D const & obj)
+  {
+    os << "Point2D {" << obj.x() << ", " << obj.y() << "}";
+    return os;
+  }
+
 private:
 
   bool EqualWithEps(float v1, float v2) const
@@ -154,8 +160,4 @@ private:
   float m_x = 0.0f, m_y = 0.0f;
 };
 
-std::ostream & operator << (std::ostream & os, Point2D const & obj)
-{
-  os << "Point2D {" << obj.x() << ", " << obj.y() << "}";
-  return os;
-}
+
