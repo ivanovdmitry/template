@@ -11,7 +11,8 @@ public:
   Box2D() = default;
   Box2D(std::shared_ptr<Point2D> & in_min, std::shared_ptr<Point2D> & in_max) : m_min(in_min), m_max(in_max) {}
 
-  Box2D(Box2D const & obj) : m_min(obj.m_min), m_max(obj.m_max) {}
+  Box2D(Box2D const & obj) noexcept : m_min(obj.m_min), m_max(obj.m_max) {}
+  Box2D(Box2D && obj) noexcept : m_min(std::move(obj.m_min)), m_max(std::move(obj.m_max)) {}
 
 
   std::shared_ptr<Point2D>  GetCenter() const 
