@@ -15,6 +15,7 @@ public:
   Ray2D() = default;
   Ray2D(std::shared_ptr<Point2D> const & origin, std::shared_ptr<Point2D> const & direction) : m_origin(origin),  m_direction(direction) {}
   Ray2D(Ray2D const & obj) : m_origin(obj.m_origin), m_direction(obj.m_direction) {}
+  Ray2D(Ray2D  && obj) : m_origin(std::move(obj.m_origin)), m_direction(std::move(obj.m_direction)) {}
 
   inline std::shared_ptr<Point2D> & GetOrigin() { return m_origin; }
   inline std::shared_ptr<Point2D> & GetDirection() { return m_direction; }
@@ -24,6 +25,7 @@ public:
     return (m_origin == obj.m_origin) && (m_direction == obj.m_direction);
   }
   
+
   Ray2D & operator = (Ray2D const & obj)
   {
     if (this == &obj) return *this;
@@ -83,7 +85,7 @@ public:
 
   friend bool Crossing (Ray2D  & ray, Box2D & box)  
   {
-   
+
    return false;
   }
 
