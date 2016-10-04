@@ -5,8 +5,6 @@
 #include <functional>
 #include <ostream>
 
-float const kEps = 1e-5;
-
 class Point2D
 {
 public:
@@ -113,6 +111,21 @@ public:
 		return index == 0 ? m_x : m_y;
 	}
 
+	Point2D & move(Point2D const & obj)
+	{
+		if (this == &obj) return *this;
+		m_x = obj.x();
+		m_y = obj.y();
+		return *this;
+	}
+	Point2D & move(float x, float y)
+	{
+		if ( EqualWithEps((*this).x(),x) && EqualWithEps((*this).y(),y) ) return *this;
+		m_x = x;
+		m_y = y;
+		return *this;
+	}
+
 	float & x() { return m_x; }
 	float & y() { return m_y; }
 
@@ -133,12 +146,14 @@ public:
 		os << "Point2D {" << obj.x() << ", " << obj.y() << "}";
 		return os;
 	}
+	
+	
 
 private:
+	float const kEps = 1e-5;
 	bool EqualWithEps(float v1, float v2) const
 	{
 		return fabs(v1 - v2) < kEps;
 	}
 	float m_x = 0.0f, m_y = 0.0f;
-
 };

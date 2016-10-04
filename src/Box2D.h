@@ -68,19 +68,52 @@ public:
 		m_pMax += x;
 		return *this;
 	}
+	Box2D & move(float x, float y)
+	{
+		if ( EqualWithEps((*this).centre().x(),x) && EqualWithEps((*this).centre().y(), y)) return *this;
+		Point2D point(x - (*this).centre().x(), y - (*this).centre().y());
+		m_pMin += point;
+		m_pMax += point;
+		return *this;
+	}
 
-	Point2D & left() { return m_pMin; }
-	Point2D & right() { return m_pMax; }
+	Point2D & leftBot() { return m_pMin; }
+	Point2D & rightTop() { return m_pMax; }
+	Point2D leftTop() 
+	{
+		Point2D point = { m_pMin.x(), m_pMax.y() };
+		return point;
+	}
+	Point2D rightBot() 
+	{
+		Point2D point = { m_pMax.x(), m_pMin.y() };
+		return point;
+	}
 
-	Point2D const & left() const { return m_pMin; }
-	Point2D const & right() const { return m_pMax; }
+	Point2D const & leftBot() const { return m_pMin; }
+	Point2D const & rightTop() const { return m_pMax; }
+	Point2D const leftTop() const
+	{
+		Point2D point = { m_pMin.x(), m_pMax.y() };
+		return point;
+	}
+	Point2D const rightBot() const
+	{
+		Point2D point = { m_pMax.x(), m_pMin.y() };
+		return point;
+	}
 
 	friend std::ostream & operator << (std::ostream & os, Box2D const & obj)
 	{
-		os << "Box 2D {" << obj.left() << "," << obj.right() << "}";
+		os << "Box 2D {" << obj.leftBot() << "," << obj.rightTop() << "}";
 		return os;
 	}
 
 private:
+	float const kEps = 1e-5;
+	bool EqualWithEps(float v1, float v2) const
+	{
+		return fabs(v1 - v2) < kEps;
+	}
 	Point2D m_pMin = { 0.0f, 0.0f }, m_pMax = { 1.0f, 1.0f };
 };
