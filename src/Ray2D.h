@@ -1,7 +1,6 @@
 #pragma once
 
-#include "point2d.h";
-#include "box2d.h";
+#include "Box2D.h"
 #include <cmath>
 #include <initializer_list>
 #include <ostream>
@@ -18,8 +17,29 @@ public:
 		int const count = sizeof(vals) / sizeof(vals[0]);
 		auto it = lst.begin();
 		for (int i = 0; i < count && it != lst.end(); i++, it += 2)
-			*vals[i] = { *it, *(it + 1) };
+			*vals[i] = { EqualWithEps(*it), EqualWithEps(*(it + 1)) };
 	}
+	Ray2D(std::initializer_list<Point2D> const & lst)
+	{
+		Point2D * vals[] = { &m_origin, &m_direction };
+		int const count = sizeof(vals) / sizeof(vals[0]);
+		auto it = lst.begin();
+		for (int i = 0; i < count && it != lst.end(); i++, it ++)
+			*vals[i] =  *(it) ;
+	}
+
+	Ray2D & operator = (Ray2D const & obj)
+	{
+		if (this == &obj) return *this;
+		m_origin = obj.m_origin;
+		m_direction = obj.m_direction;
+		return *this;
+	}
+
+	bool operator == (Ray2D const & obj) const {  return (m_origin == obj.m_origin) && (m_direction == obj.m_direction);  }
+
+	bool operator != (Ray2D const & obj)  {  return !operator==(obj);  }
+
 
 	Ray2D & Move(Point2D const & obj)
 	{
@@ -36,13 +56,15 @@ public:
 	}
 
 	friend bool Intsec(Box2D const & obj1, Ray2D const & obj2)
-	{
-		float arr[5] = { atan2f(obj1.LeftBot() - obj2.Point()), atan2f(obj1.LeftTop() - obj2.Point()),
-			atan2f(obj1.RightTop() - obj2.Point()), atan2f(obj1.RightBot() - obj2.Point()), atan2f(obj2.Vector()) };
-		/*int flag = 0;
-		for (int i = 0; i < 4; i++)
-			(arr[i] > 0) ? flag++ : flag--;*/
-		/*if (flag != 0)*/
+	{/*
+		float arr[5] = { 
+			atan2f(obj1.LeftBot() - obj2.Point()), 
+			atan2f(obj1.LeftTop() - obj2.Point()),
+			atan2f(obj1.RightTop() - obj2.Point()), 
+			atan2f(obj1.RightBot() - obj2.Point()), 
+			atan2f(obj2.Vector()) 
+		};
+
 		for (int i = 0; i < 4; i++)
 		{
 			if (arr[4] >= arr[i])
@@ -52,7 +74,7 @@ public:
 						return true;
 				return false;
 			}
-		}
+		}*/
 		return false;
 	}
 
@@ -68,12 +90,16 @@ public:
 
 	friend std::ostream & operator << (std::ostream & os, Ray2D const & obj)
 	{
-		os << "Ray 2D {Point " << obj.Point() << ", Vector " << obj.Vector() << "}";
+		os << "Ray 2D { Origin " << obj.Point() << ", Direction " << obj.Vector() << "}";
 		return os;
 	}
 
 private:
 	float const kEps = 1e-5;
+	float EqualWithEps(float v) const 
+	{
+		return (v <= kEps) ? 0.0 : v;
+	}
 	bool EqualWithEps(float v1, float v2) const
 	{
 		return fabs(v1 - v2) < kEps;
