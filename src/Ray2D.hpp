@@ -1,10 +1,12 @@
 #pragma once
 
-#include "Box2D.h"
+#include "Box2D.hpp"
 #include <initializer_list>
 #include <ostream>
 
-class Ray2D
+#include "CompareWithZero.hpp"
+
+class Ray2D : public CompareWithZero
 {
 public:
 	Ray2D() = default;
@@ -55,27 +57,22 @@ public:
 	}
 
 	
-	
+
 	friend bool Intsec(Box2D const & obj1, Ray2D const & obj2)
 	{
-		float arr[5] = { 
+		float arr[] = { 
 			atan2(obj1.LeftBot() - obj2.Point()), 
 			atan2(obj1.LeftTop() - obj2.Point()),
 			atan2(obj1.RightTop() - obj2.Point()), 
-			atan2(obj1.RightBot() - obj2.Point()), 
-			atan2(obj2.Vector()) 
+			atan2(obj1.RightBot() - obj2.Point())
 		};
+		float v =	atan2(obj2.Vector());
 
-		for (int i = 0; i < 4; i++)
-		{
-			if (arr[4] >= arr[i])
-			{
-				for (int i = 0; i < 4; i++)
-					if (arr[4] <= arr[i])
-						return true;
+		for (auto i: arr)
+			if (v >= i)
+				for (auto k : arr)
+					if (v <= k) return true;
 				return false;
-			}
-		}
 		return false;
 	}
 
@@ -96,15 +93,5 @@ public:
 	}
 
 private:
-	float const kEps = 1e-5;
-	float EqualWithEps(float v) const 
-	{
-		return (v <= kEps) ? 0.0 : v;
-	}
-	bool EqualWithEps(float v1, float v2) const
-	{
-		return fabs(v1 - v2) < kEps;
-	}
-	Point2D m_origin = { 0.0f, 0.0f };
-	Point2D m_direction = { 0.0f, 0.0f };
+	Point2D m_origin = { 0.0f, 0.0f }, m_direction = { 0.0f, 0.0f };
 };

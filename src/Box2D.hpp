@@ -1,12 +1,14 @@
 #pragma once
 
-#include "Point2D.h"
+#include "Point2D.hpp"
 #include <cmath>
 #include <initializer_list>
 #include <ostream>
 #include <exception>
 
-class Box2D
+#include "CompareWithZero.hpp"
+
+class Box2D : public CompareWithZero
 {
 public:
 	Box2D() = default;
@@ -111,14 +113,5 @@ public:
 	}
 
 private:
-	float const kEps = 1e-5;
-	float EqualWithEps(float v) const 
-	{
-		return (v <= kEps) ? 0.0 : v;
-	}
-	bool EqualWithEps(float v1, float v2) const
-	{
-		return fabs(v1 - v2) < kEps;
-	}
 	Point2D m_min = { 0.0f, 0.0f }, m_max = { 1.0f, 1.0f };
 };

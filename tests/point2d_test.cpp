@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "Point2D.h"
+#include "Point2D.hpp"
 #include <sstream>
 #include <unordered_set>
 

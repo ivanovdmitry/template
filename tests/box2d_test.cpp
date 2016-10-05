@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "Box2D.h"
+#include "Box2D.hpp"
 #include <sstream>
 #include <unordered_set>
 
@@ -22,7 +22,6 @@ TEST(Box2D_test, test_construction)
   EXPECT_EQ(box4.LeftBot(), Point2D(1.0, 2.0));
   EXPECT_EQ(box4.RightTop(), Point2D(3.0, 4.0));
 
-// TODO need fix: 
   Box2D box5(3.0, 2.0, 1.0, 4.0);
   EXPECT_EQ(box5.LeftBot(), Point2D(1.0, 2.0));
   EXPECT_EQ(box5.RightTop(), Point2D(3.0, 4.0));
