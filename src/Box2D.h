@@ -4,6 +4,7 @@
 #include <cmath>
 #include <initializer_list>
 #include <ostream>
+#include <exception>
 
 class Box2D
 {
@@ -29,7 +30,16 @@ public:
 		int const count = sizeof(vals) / sizeof(vals[0]);
 		auto it = lst.begin();
 		for (int i = 0; i < count && it != lst.end(); i++, it += 2)
-			*vals[i] = { *(it), *(it + 1) };
+			*vals[i] = { EqualWithEps(*(it)), EqualWithEps(*(it+1))};
+	}
+
+	Box2D(std::initializer_list<Point2D> const & lst)
+	{
+		Point2D * vals[] = { &m_min, &m_max };
+		int const count = sizeof(vals) / sizeof(vals[0]);
+		auto it = lst.begin();
+		for (int i = 0; i < count && it != lst.end(); i++, it ++)
+			*vals[i] =  *(it) ;
 	}
 
 	Box2D & operator = (Box2D const & obj)
@@ -44,7 +54,13 @@ public:
 
 	bool operator != (Box2D const & obj)  {  return !operator==(obj);  }
 
-	Point2D Centre () const  {  return{ (m_min + m_max) / 2 };  }
+	Point2D operator [] (unsigned int index) const
+	{
+		if (index >= 2)  throw std::invalid_argument( "Reference to non-existing object" );
+		return index == 0 ? m_min : m_max;
+	}
+
+	Point2D Centre () const  {  return (m_min + m_max) / 2.0;  }
 
 	friend bool Intsec (Box2D const & obj1, Box2D const & obj2)
 	{
@@ -98,12 +114,16 @@ public:
 
 	friend std::ostream & operator << (std::ostream & os, Box2D const & obj)
 	{
-		os << "Box 2D {Left Bot" << obj.LeftBot() << ", Right Top" << obj.RightTop() << "}";
+		os << "Box 2D {Left Bot " << obj.LeftBot() << ", Right Top " << obj.RightTop() << "}";
 		return os;
 	}
 
 private:
 	float const kEps = 1e-5;
+	float EqualWithEps(float v) const 
+	{
+		return (v <= kEps) ? 0.0 : v;
+	}
 	bool EqualWithEps(float v1, float v2) const
 	{
 		return fabs(v1 - v2) < kEps;
