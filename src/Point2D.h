@@ -15,7 +15,6 @@ public:
 	{
 		float * vals[] = { &m_x, &m_y };
 		int const count = sizeof(vals) / sizeof(vals[0]);
-
 		auto it = lst.begin();
 		for (int i = 0; i < count && it != lst.end(); i++, ++it)
 			*vals[i] = *it;
@@ -29,15 +28,9 @@ public:
 		return *this;
 	}
 
-	bool operator == (Point2D const & obj) const
-	{
-		return EqualWithEps(m_x, obj.m_x) && EqualWithEps(m_y, obj.m_y);
-	}
+	bool operator == (Point2D const & obj) const {  return EqualWithEps(m_x, obj.m_x) && EqualWithEps(m_y, obj.m_y);  }
 
-	bool operator != (Point2D const & obj) const
-	{
-		return !operator==(obj);
-	}
+	bool operator != (Point2D const & obj) const	{  return !operator==(obj);  }
 
 	bool operator < (Point2D const & obj) const
 	{
@@ -45,30 +38,18 @@ public:
 		return m_y < obj.m_y;
 	}
 
-	Point2D operator + (Point2D const & obj) const
-	{
-		return{ m_x + obj.m_x,m_y + obj.m_y };
-	}
+	Point2D operator + (Point2D const & obj) const	{  return{ m_x + obj.m_x, m_y + obj.m_y };  }
 
-	Point2D operator - (Point2D const & obj) const
-	{
-		return{ m_x - obj.m_x,m_y - obj.m_y };
-	}
+	Point2D operator - (Point2D const & obj) const	{  return{ m_x - obj.m_x, m_y - obj.m_y };  }
 
-	Point2D operator - () const
-	{
-		return{ -m_x,-m_y };
-	}
+	Point2D operator - () const  {  return{ -m_x, -m_y };  }
 
-	Point2D operator * (float scale) const
-	{
-		return{ m_x*scale,m_y*scale };
-	}
+	Point2D operator * (float scale) const  {  return{ m_x*scale, m_y*scale };  }
 
 	Point2D operator / (float scale) const
 	{
 		if (scale == 0) return{ INFINITY , INFINITY };
-		return{ m_x / scale,m_y / scale };
+		return{ m_x / scale, m_y / scale };
 	}
 
 	Point2D & operator += (Point2D const & obj)
@@ -111,14 +92,14 @@ public:
 		return index == 0 ? m_x : m_y;
 	}
 
-	Point2D & move(Point2D const & obj)
+	Point2D & Move(Point2D const & obj)
 	{
 		if (this == &obj) return *this;
 		m_x = obj.x();
 		m_y = obj.y();
 		return *this;
 	}
-	Point2D & move(float x, float y)
+	Point2D & Move(float x, float y)
 	{
 		if ( EqualWithEps((*this).x(),x) && EqualWithEps((*this).y(),y) ) return *this;
 		m_x = x;
@@ -126,11 +107,11 @@ public:
 		return *this;
 	}
 
-	float & x() { return m_x; }
-	float & y() { return m_y; }
+	float & x()  {  return m_x;  }
+	float & y()  {  return m_y;  }
 
-	float const & x() const { return m_x; }
-	float const & y() const { return m_y; }
+	float const & x() const  {  return m_x;  }
+	float const & y() const  {  return m_y;  }
 
 	struct Hash
 	{
@@ -143,12 +124,10 @@ public:
 
 	friend std::ostream & operator << (std::ostream & os, Point2D const & obj)
 	{
-		os << "Point2D {" << obj.x() << ", " << obj.y() << "}";
+		os << "{" << obj.x() << ", " << obj.y() << "}";
 		return os;
 	}
 	
-	
-
 private:
 	float const kEps = 1e-5;
 	bool EqualWithEps(float v1, float v2) const

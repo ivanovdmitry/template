@@ -1,111 +1,104 @@
 #pragma once
 
-#include "Point2D.h"
+#include "point2d.h"
+#include <cmath>
+#include <initializer_list>
+#include <ostream>
 
 class Box2D
 {
 public:
 	Box2D() = default;
-	Box2D(Point2D const & obj1, Point2D const & obj2) : m_pMin(obj1), m_pMax(obj2) {};
+	Box2D(Point2D const & obj1, Point2D const & obj2) : m_pLeftBot(obj1), m_pRightTop(obj2) {};
 	Box2D(float x1, float y1, float x2, float y2)
 	{
 		if (x1 < x2)
 		{
-			m_pMin = { x1, y1 };
-			m_pMax = { x2, y2 };
+			m_pLeftBot = { x1, y1 };
+			m_pRightTop = { x2, y2 };
 		}
 		else
 		{
-			m_pMin = { x2, y2 };
-			m_pMax = { x1, y1 };
+			m_pLeftBot = { x2, y2 };
+			m_pRightTop = { x1, y1 };
 		}
-	};
+	}
 	Box2D(std::initializer_list<float> const & lst)
 	{
-		Point2D * vals[] = { &m_pMin, &m_pMax };
+		Point2D * vals[] = { &m_pLeftBot, &m_pRightTop };
 		int const count = sizeof(vals) / sizeof(vals[0]);
-
 		auto it = lst.begin();
-		for (int i = 0; i < count && it != lst.end(); i++, it+=2)
+		for (int i = 0; i < count && it != lst.end(); i++, it += 2)
 			*vals[i] = { *(it), *(it + 1) };
 	}
 
 	Box2D & operator = (Box2D const & obj)
 	{
 		if (this == &obj) return *this;
-		m_pMin = obj.m_pMin;
-		m_pMax = obj.m_pMax;
+		m_pLeftBot = obj.m_pLeftBot;
+		m_pRightTop = obj.m_pRightTop;
 		return *this;
 	}
 
-	bool operator == (Box2D const & obj)
-	{
-		return (m_pMin == obj.m_pMin) && (m_pMax == obj.m_pMax);
-	}
+	bool operator == (Box2D const & obj)  {  return (m_pLeftBot == obj.m_pLeftBot) && (m_pRightTop == obj.m_pRightTop);  }
 
-	bool operator != (Box2D const & obj)
-	{
-		return !operator==(obj);
-	}
+	bool operator != (Box2D const & obj)  {  return !operator==(obj);  }
 
-	Point2D centre () const
-	{
-		return{ (m_pMin + m_pMax) / 2 };
-	}
+	Point2D Centre () const  {  return{ (m_pLeftBot + m_pRightTop) / 2 };  }
 
-	friend bool intsec (Box2D const & obj1, Box2D const & obj2)
+	friend bool Intsec (Box2D const & obj1, Box2D const & obj2)
 	{
-		if ( (obj1.m_pMax.y() >= obj2.m_pMin.y()) && (obj1.m_pMin.y() <= obj2.m_pMax.y()) )
-		return (obj1.m_pMax.x() >= obj2.m_pMin.x()) && (obj1.m_pMin.x() <= obj2.m_pMax.x());
+		if ( (obj1.m_pRightTop.y() >= obj2.m_pLeftBot.y()) && (obj1.m_pLeftBot.y() <= obj2.m_pRightTop.y()) )
+		return (obj1.m_pRightTop.x() >= obj2.m_pLeftBot.x()) && (obj1.m_pLeftBot.x() <= obj2.m_pRightTop.x());
 		return false;
 	}
 
-	Box2D & move(Point2D const & obj)
+	Box2D & Move(Point2D const & obj)
 	{
-		if ((*this).centre() == obj) return *this;
-		Point2D x(obj - (*this).centre());
-		m_pMin += x;
-		m_pMax += x;
+		if ((*this).Centre() == obj) return *this;
+		Point2D point(obj - (*this).Centre());
+		m_pLeftBot += point;
+		m_pRightTop += point;
 		return *this;
 	}
-	Box2D & move(float x, float y)
+	Box2D & Move(float x, float y)
 	{
-		if ( EqualWithEps((*this).centre().x(),x) && EqualWithEps((*this).centre().y(), y)) return *this;
-		Point2D point(x - (*this).centre().x(), y - (*this).centre().y());
-		m_pMin += point;
-		m_pMax += point;
+		if ( EqualWithEps((*this).Centre().x(),x) && EqualWithEps((*this).Centre().y(), y)) return *this;
+		Point2D point(x - (*this).Centre().x(), y - (*this).Centre().y());
+		m_pLeftBot += point;
+		m_pRightTop += point;
 		return *this;
 	}
 
-	Point2D & leftBot() { return m_pMin; }
-	Point2D & rightTop() { return m_pMax; }
-	Point2D leftTop() 
+	Point2D & LeftBot()  {  return m_pLeftBot;  }
+	Point2D & RightTop()  {  return m_pRightTop;  }
+	Point2D LeftTop() 
 	{
-		Point2D point = { m_pMin.x(), m_pMax.y() };
+		Point2D point = { m_pLeftBot.x(), m_pRightTop.y() };
 		return point;
 	}
-	Point2D rightBot() 
+	Point2D RightBot() 
 	{
-		Point2D point = { m_pMax.x(), m_pMin.y() };
+		Point2D point = { m_pRightTop.x(), m_pLeftBot.y() };
 		return point;
 	}
 
-	Point2D const & leftBot() const { return m_pMin; }
-	Point2D const & rightTop() const { return m_pMax; }
-	Point2D const leftTop() const
+	Point2D const & LeftBot() const  {  return m_pLeftBot;  }
+	Point2D const & RightTop() const  {  return m_pRightTop;  }
+	Point2D const LeftTop() const
 	{
-		Point2D point = { m_pMin.x(), m_pMax.y() };
+		Point2D point = { m_pLeftBot.x(), m_pRightTop.y() };
 		return point;
 	}
-	Point2D const rightBot() const
+	Point2D const RightBot() const
 	{
-		Point2D point = { m_pMax.x(), m_pMin.y() };
+		Point2D point = { m_pRightTop.x(), m_pLeftBot.y() };
 		return point;
 	}
 
 	friend std::ostream & operator << (std::ostream & os, Box2D const & obj)
 	{
-		os << "Box 2D {" << obj.leftBot() << "," << obj.rightTop() << "}";
+		os << "Box 2D {Left Bot" << obj.LeftBot() << ", Right Top" << obj.RightTop() << "}";
 		return os;
 	}
 
@@ -115,5 +108,5 @@ private:
 	{
 		return fabs(v1 - v2) < kEps;
 	}
-	Point2D m_pMin = { 0.0f, 0.0f }, m_pMax = { 1.0f, 1.0f };
+	Point2D m_pLeftBot = { 0.0f, 0.0f }, m_pRightTop = { 1.0f, 1.0f };
 };
