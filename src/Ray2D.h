@@ -74,8 +74,8 @@ public:
 						return true;
 				return false;
 			}
-		}
-		return false;*/
+		}*/
+		return false;
 	}
 
 	friend bool Intsec(Ray2D const & obj1, Box2D const & obj2)  {  return Intsec(obj2, obj1);  }
