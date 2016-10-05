@@ -1,4 +1,5 @@
-This is template C++11 project.
 
-#Compilation
-To compile on Windows (MinGW) apply patch gtest_windows_mingw_patch.diff to 3party/googletest.
+Домашнее задание выполняется:
+- [Иванов Дмитрий](https://github.com/ivanovdmitry)
+- [Петрищев Дмитрий](https://github.com/DmitryPetrishchev)
+
