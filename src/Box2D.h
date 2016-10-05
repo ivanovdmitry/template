@@ -1,6 +1,6 @@
 #pragma once
 
-#include "point2d.h"
+#include "Point2D.h"
 #include <cmath>
 #include <initializer_list>
 #include <ostream>
@@ -40,7 +40,7 @@ public:
 		return *this;
 	}
 
-	bool operator == (Box2D const & obj)  {  return (m_min == obj.m_min) && (m_max == obj.m_max);  }
+	bool operator == (Box2D const & obj) const {  return (m_min == obj.m_min) && (m_max == obj.m_max);  }
 
 	bool operator != (Box2D const & obj)  {  return !operator==(obj);  }
 
