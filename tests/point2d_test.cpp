@@ -72,6 +72,9 @@ TEST(point2d_test, test_calculus)
 
   p1 /= 2.0f;
   EXPECT_EQ(p1, Point2D(1.2f, 2.4f));
+
+
+  ASSERT_THROW(p1 / 0.0f, std::invalid_argument);
 }
 
 TEST(point2d_test, test_square_brackets)
