@@ -1,106 +1,117 @@
 #include "gtest/gtest.h"
+#include "Box2D.hpp"
 #include <sstream>
 #include <unordered_set>
-#include <memory>
-#include "box2d.hpp"
 
 
-TEST(box2d_test, test_construction)
+
+TEST(Box2D_test, test_construction)
 {
   Box2D box1;
-  EXPECT_EQ(*box1.GetMin(), *std::make_shared<Point2D>(0.0f, 0.0f));
-  EXPECT_EQ(*box1.GetMax(), *std::make_shared<Point2D>(0.0f, 0.0f));
+  EXPECT_EQ(box1.LeftBot(), Point2D(0.0, 0.0));
+  EXPECT_EQ(box1.RightTop(), Point2D(1.0, 1.0));
 
-  auto point1 = std::make_shared<Point2D>(1.1f,1.2f);
-  auto point2 = std::make_shared<Point2D>(2.1f,2.2f);
-  Box2D box2 (point1, point2);
-
-  EXPECT_EQ(*box2.GetMin(), *std::make_shared<Point2D>(1.1,1.2));
-  EXPECT_EQ(*box2.GetMax(), *std::make_shared<Point2D>(2.1f,2.2f));
+  Box2D box2 = {Point2D(1.0, 2.0), Point2D(5.0, 6.0)};
+  EXPECT_EQ(box2.LeftBot(), Point2D(1.0, 2.0));
+  EXPECT_EQ(box2.RightTop(), Point2D(5.0, 6.0));
 
   Box2D box3 = box2;
-  EXPECT_EQ(box3, box2);
+  EXPECT_EQ(box2, box3);
+
+  Box2D box4(1.0, 2.0, 3.0, 4.0);
+  EXPECT_EQ(box4.LeftBot(), Point2D(1.0, 2.0));
+  EXPECT_EQ(box4.RightTop(), Point2D(3.0, 4.0));
+
+  Box2D box5(3.0, 2.0, 1.0, 4.0);
+  EXPECT_EQ(box5.LeftBot(), Point2D(1.0, 2.0));
+  EXPECT_EQ(box5.RightTop(), Point2D(3.0, 4.0));
+
+  Box2D box6(3.0, 8.0, 1.0, 4.0);
+  EXPECT_EQ(box6.LeftBot(), Point2D(1.0, 4.0));
+  EXPECT_EQ(box6.RightTop(), Point2D(3.0, 8.0));
+}
+
+TEST(Box2D_test, test_tips)
+{
+  Box2D box;
+  EXPECT_EQ(box.LeftBot(), Point2D(0.0, 0.0));
+  EXPECT_EQ(box.LeftTop(), Point2D(0.0, 1.0));
+  EXPECT_EQ(box.RightTop(), Point2D(1.0, 1.0));
+  EXPECT_EQ(box.RightBot(), Point2D(1.0, 0.0));
 }
 
 
-TEST(box2d_test, test_output)
+TEST(Box2D_test, test_output)
 {
-  auto point1 = std::make_shared<Point2D>(1.1f,1.2f);
-  auto point2 = std::make_shared<Point2D>(2.1f,2.2f);
-
   std::stringstream s;
-  s << Box2D(point1, point2);
-
-  EXPECT_EQ(s.str(), "Box2D {(1.1, 1.2), (2.1, 2.2)}");
+  s << Box2D();
+  EXPECT_EQ(s.str(), "Box 2D {Left Bot Point 2D {0, 0}, Right Top Point 2D {1, 1}}");
 }
 
-TEST(box2d_test, test_GetCenter)
+TEST(Box2D_test, test_initializer_list)
 {
-  auto point1 = std::make_shared<Point2D>(1.1f,1.2f);
-  auto point2 = std::make_shared<Point2D>(2.1f,2.2f);
-  Box2D box(point1, point2);
+  Box2D box1 = {Point2D(1.0, 2.0), Point2D(5.0, 6.0), Point2D(3.0, 3.0)};
+  EXPECT_EQ(box1.LeftBot(), Point2D(1.0, 2.0));
+  EXPECT_EQ(box1.RightTop(), Point2D(5.0, 6.0));
 
-  EXPECT_EQ(*box.GetCenter(), Point2D(1.6, 1.7));
+  Box2D box2 = {Point2D(1.0, 8.0)};
+  EXPECT_EQ(box2.LeftBot(), Point2D(1.0, 8.0));
+  EXPECT_EQ(box2.RightTop(), Point2D(1.0, 1.0));
+
+  Box2D box3 = {0.0, 5.0, 7.0, 9.0, 1.0};
+  EXPECT_EQ(box3.LeftBot(), Point2D(0.0, 5.0));
+  EXPECT_EQ(box3.RightTop(), Point2D(7.0, 9.0));
+
+
+  Box2D box4 = {2.0, 3.0, 4.0};
+  EXPECT_EQ(box4.LeftBot(), Point2D(2.0, 3.0));
+  EXPECT_EQ(box4.RightTop(), Point2D(4.0, 0.0));
 }
 
-
-TEST(box2d_test, test_Move)
+TEST(Box2D_test, test_square_brackets)
 {
-  auto point1 = std::make_shared<Point2D>(1.0f,1.0f);
-  auto point2 = std::make_shared<Point2D>(2.0f,2.0f);
-  Box2D box(point1, point2);
-
-  auto point3 = std::make_shared<Point2D>(3.0f,3.0f);
-
-  box.SetCenter(point3);
-  EXPECT_EQ(*box.GetCenter(), Point2D(3.0, 3.0));
-  EXPECT_EQ(*box.GetMin(), Point2D(2.5, 2.5));
-  EXPECT_EQ(*box.GetMax(), Point2D(3.5, 3.5));
+  Box2D box;
+  EXPECT_EQ(box[0], Point2D(0.0, 0.0));
+  EXPECT_EQ(box[1], Point2D(1.0, 1.0));
+  ASSERT_THROW(box[2], std::invalid_argument);
 }
 
-TEST(box2d_test, test_Crossing)
+TEST(Box2D_test, test_centre)
 {
-  {
-    auto point1 = std::make_shared<Point2D>(1.0f,1.0f);
-    auto point2 = std::make_shared<Point2D>(2.0f,2.0f);
-    auto point3 = std::make_shared<Point2D>(2.5f,2.5f);
-    auto point4 = std::make_shared<Point2D>(3.5f,3.5f);
-    // два прямоугольника на некотором расстоянии друг от друга
-    Box2D box1(point1, point2);
-    Box2D box2(point3, point4);
-    EXPECT_EQ(Crossing(box1, box2), false);
+  Box2D box1;
+  EXPECT_EQ(box1.Centre(), Point2D(0.5, 0.5));
+  Box2D box2 = { Point2D(-1.0, -1.0), Point2D(1.0, 1.0)};
+  EXPECT_EQ(box2.Centre(), Point2D(0.0, 0.0));
+}
 
-    // пересечение прямоугольников когда одна точка находится внутри другого прямоугольника 
-    Box2D box3(point1, point3);
-    Box2D box4(point2, point4);
-    EXPECT_EQ(Crossing(box3, box4), true);
+TEST(Box2D_test, test_move)
+{
+  Box2D box1;
+  box1.Move(Point2D(1.5, 1.5));
+  EXPECT_EQ(box1.LeftBot(), Point2D(1.0, 1.0));
+  EXPECT_EQ(box1.RightTop(), Point2D(2.0, 2.0));
 
-    // один прямоугольник внутри другого
-    Box2D box5(point1, point4);
-    Box2D box6(point2, point3);
-    EXPECT_EQ(Crossing(box5, box6), true);
-  }
-  // пересечение, когда внутри прямоугольника нет точки
-  {
-    auto point5 = std::make_shared<Point2D>(2.0f,1.0f);
-    auto point6 = std::make_shared<Point2D>(1.0f,2.0f);
-    auto point7 = std::make_shared<Point2D>(3.0f,10.0f);
-    auto point8 = std::make_shared<Point2D>(10.0f,3.0f);
+  Box2D box2;
+  box2.Move(3.5, 3.5);
+  EXPECT_EQ(box2.LeftBot(), Point2D(3.0, 3.0));
+  EXPECT_EQ(box2.RightTop(), Point2D(4.0, 4.0));
+}
 
-    Box2D box7(point5, point7);
-    Box2D box8(point6, point8);
-    EXPECT_EQ(Crossing(box7, box8), true);
-  }
-  // пересечение прямоугольников когда две точка находится внутри другого прямоугольника 
-  {
-    auto point9 = std::make_shared<Point2D>(1.0f,1.0f);
-    auto point10 = std::make_shared<Point2D>(5.0f,5.0f);
-    auto point11 = std::make_shared<Point2D>(3.0f,2.0f);
-    auto point12 = std::make_shared<Point2D>(9.0f,3.0f);
+TEST(Box2D_test, test_intsec)
+{
+  Box2D box1 = {Point2D(0, 0), Point2D{5, 5}};
+  Box2D box2 = {3, 3, 8, 8};
+  EXPECT_EQ(Intsec(box1, box2), true);
 
-    Box2D box9(point9, point10);
-    Box2D box10(point11, point12);
-    EXPECT_EQ(Crossing(box9, box10), true);
-  }
+  box2.Move(7.5, 7.5);
+  EXPECT_EQ(Intsec(box1, box2), true);
 
+  box2.Move(10, 10);
+  EXPECT_EQ(Intsec(box1, box2), false);
+
+  Box2D box3 = {-1, 1, 8, 2};
+  EXPECT_EQ(Intsec(box1, box3), true);
+
+  Box2D box4 = {1, -1, 2, 8};
+  EXPECT_EQ(Intsec(box1, box4), true);
 }

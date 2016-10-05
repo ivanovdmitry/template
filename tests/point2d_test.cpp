@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "point2d.hpp"
+#include "Point2D.hpp"
 #include <sstream>
 #include <unordered_set>
 
@@ -72,6 +72,9 @@ TEST(point2d_test, test_calculus)
 
   p1 /= 2.0f;
   EXPECT_EQ(p1, Point2D(1.2f, 2.4f));
+
+
+  ASSERT_THROW(p1 / 0.0f, std::invalid_argument);
 }
 
 TEST(point2d_test, test_square_brackets)
@@ -97,5 +100,5 @@ TEST(point2d_test, test_output)
 {
   std::stringstream s;
   s << Point2D(1.2f, 0.2f);
-  EXPECT_EQ(s.str(), "Point2D {1.2, 0.2}");
+  EXPECT_EQ(s.str(), "Point 2D {1.2, 0.2}");
 }
