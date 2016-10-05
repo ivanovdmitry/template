@@ -32,6 +32,16 @@ TEST(Box2D_test, test_construction)
   EXPECT_EQ(box6.RightTop(), Point2D(3.0, 8.0));
 }
 
+TEST(Box2D_test, test_tips)
+{
+  Box2D box;
+  EXPECT_EQ(box.LeftBot(), Point2D(0.0, 0.0));
+  EXPECT_EQ(box.LeftTop(), Point2D(0.0, 1.0));
+  EXPECT_EQ(box.RightTop(), Point2D(1.0, 1.0));
+  EXPECT_EQ(box.RightBot(), Point2D(1.0, 0.0));
+}
+
+
 TEST(Box2D_test, test_output)
 {
   std::stringstream s;
@@ -73,4 +83,17 @@ TEST(Box2D_test, test_centre)
   EXPECT_EQ(box1.Centre(), Point2D(0.5, 0.5));
   Box2D box2 = { Point2D(-1.0, -1.0), Point2D(1.0, 1.0)};
   EXPECT_EQ(box2.Centre(), Point2D(0.0, 0.0));
+}
+
+TEST(Box2D_test, test_move)
+{
+  Box2D box1;
+  box1.Move(Point2D(1.5, 1.5));
+  EXPECT_EQ(box1.LeftBot(), Point2D(1.0, 1.0));
+  EXPECT_EQ(box1.RightTop(), Point2D(2.0, 2.0));
+
+  Box2D box2;
+  box2.Move(3.5, 3.5);
+  EXPECT_EQ(box2.LeftBot(), Point2D(3.0, 3.0));
+  EXPECT_EQ(box2.RightTop(), Point2D(4.0, 4.0));
 }
