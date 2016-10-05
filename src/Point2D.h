@@ -124,7 +124,7 @@ public:
 
 	friend std::ostream & operator << (std::ostream & os, Point2D const & obj)
 	{
-		os << "{" << obj.x() << ", " << obj.y() << "}";
+		os << "Point 2D {" << obj.x() << ", " << obj.y() << "}";
 		return os;
 	}
 	
