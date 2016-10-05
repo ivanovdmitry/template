@@ -55,8 +55,8 @@ TEST(Box2D_test, test_initializer_list)
   EXPECT_EQ(box1.RightTop(), Point2D(5.0, 6.0));
 
   Box2D box2 = {Point2D(1.0, 8.0)};
-  EXPECT_EQ(box2.LeftBot(), Point2D(1.0, 8.0));
-  EXPECT_EQ(box2.RightTop(), Point2D(1.0, 1.0));
+  EXPECT_EQ(box2.LeftBot(), Point2D(1.0, 1.0));
+  EXPECT_EQ(box2.RightTop(), Point2D(1.0, 8.0));
 
   Box2D box3 = {0.0, 5.0, 7.0, 9.0, 1.0};
   EXPECT_EQ(box3.LeftBot(), Point2D(0.0, 5.0));

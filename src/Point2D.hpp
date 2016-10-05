@@ -51,7 +51,7 @@ public:
 
 	Point2D operator * (float scale) const  {  return{ m_x*scale, m_y*scale };  }
 
-	Point2D operator / (float scale) const
+	Point2D operator / (float scale) const throw (std::invalid_argument)
 	{
 		if (scale == 0) throw std::invalid_argument("division by zero");
 		return { m_x / scale, m_y / scale };
@@ -78,7 +78,7 @@ public:
 		return *this;
 	}
 
-	Point2D & operator /= (float scale)
+	Point2D & operator /= (float scale) throw (std::invalid_argument)
 	{
 		if (scale == 0)
 		{

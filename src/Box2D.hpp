@@ -12,7 +12,7 @@ class Box2D : public CompareWithZero
 {
 public:
 	Box2D() = default;
-	Box2D(Point2D const & obj1, Point2D const & obj2) : m_min(obj1), m_max(obj2) {};
+	Box2D(Point2D const & obj1, Point2D const & obj2) : m_min(obj1), m_max(obj2) { CheckBox(); }
 	Box2D(float x1, float y1, float x2, float y2)
 	{
 		m_min = { std::min(x1,x2), std::min(y1, y2) };
@@ -34,6 +34,7 @@ public:
 		auto it = lst.begin();
 		for (int i = 0; i < count && it != lst.end(); i++, it ++)
 			*vals[i] =  *(it) ;
+		CheckBox();
 	}
 
 	Box2D & operator = (Box2D const & obj)
@@ -48,7 +49,7 @@ public:
 
 	bool operator != (Box2D const & obj)  {  return !operator==(obj);  }
 
-	Point2D operator [] (unsigned int index) const
+	Point2D operator [] (unsigned int index) const throw (std::invalid_argument)
 	{
 		if (index >= 2)  throw std::invalid_argument( "Reference to non-existing object" );
 		return index == 0 ? m_min : m_max;
@@ -113,5 +114,10 @@ public:
 	}
 
 private:
+	void CheckBox() 
+		{ 
+			if (m_max < m_min) std::swap(m_min, m_max);	
+		}
+
 	Point2D m_min = { 0.0f, 0.0f }, m_max = { 1.0f, 1.0f };
 };
