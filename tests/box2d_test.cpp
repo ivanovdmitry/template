@@ -97,3 +97,22 @@ TEST(Box2D_test, test_move)
   EXPECT_EQ(box2.LeftBot(), Point2D(3.0, 3.0));
   EXPECT_EQ(box2.RightTop(), Point2D(4.0, 4.0));
 }
+
+TEST(Box2D_test, test_intsec)
+{
+  Box2D box1 = {Point2D(0, 0), Point2D{5, 5}};
+  Box2D box2 = {3, 3, 8, 8};
+  EXPECT_EQ(Intsec(box1, box2), true);
+
+  box2.Move(7.5, 7.5);
+  EXPECT_EQ(Intsec(box1, box2), true);
+
+  box2.Move(10, 10);
+  EXPECT_EQ(Intsec(box1, box2), false);
+
+  Box2D box3 = {-1, 1, 8, 2};
+  EXPECT_EQ(Intsec(box1, box3), true);
+
+  Box2D box4 = {1, -1, 2, 8};
+  EXPECT_EQ(Intsec(box1, box4), true);
+}
