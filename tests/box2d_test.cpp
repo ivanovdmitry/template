@@ -63,10 +63,10 @@ TEST(Box2D_test, test_initializer_list)
   EXPECT_EQ(box3.LeftBot(), Point2D(0.0, 5.0));
   EXPECT_EQ(box3.RightTop(), Point2D(7.0, 9.0));
 
-// TODO: need fix bug: Box2D.h line 32
+
   Box2D box4 = {2.0, 3.0, 4.0};
   EXPECT_EQ(box4.LeftBot(), Point2D(2.0, 3.0));
-  EXPECT_EQ(box4.RightTop(), Point2D(4.0, 1.0));
+  EXPECT_EQ(box4.RightTop(), Point2D(4.0, 0.0));
 }
 
 TEST(Box2D_test, test_square_brackets)

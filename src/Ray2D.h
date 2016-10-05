@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Box2D.h"
-#include <cmath>
 #include <initializer_list>
 #include <ostream>
 
@@ -55,14 +54,16 @@ public:
 		return *this;
 	}
 
+	
+	
 	friend bool Intsec(Box2D const & obj1, Ray2D const & obj2)
-	{/*
+	{
 		float arr[5] = { 
-			atan2f(obj1.LeftBot() - obj2.Point()), 
-			atan2f(obj1.LeftTop() - obj2.Point()),
-			atan2f(obj1.RightTop() - obj2.Point()), 
-			atan2f(obj1.RightBot() - obj2.Point()), 
-			atan2f(obj2.Vector()) 
+			atan2(obj1.LeftBot() - obj2.Point()), 
+			atan2(obj1.LeftTop() - obj2.Point()),
+			atan2(obj1.RightTop() - obj2.Point()), 
+			atan2(obj1.RightBot() - obj2.Point()), 
+			atan2(obj2.Vector()) 
 		};
 
 		for (int i = 0; i < 4; i++)
@@ -74,13 +75,13 @@ public:
 						return true;
 				return false;
 			}
-		}*/
+		}
 		return false;
 	}
 
 	friend bool Intsec(Ray2D const & obj1, Box2D const & obj2)  {  return Intsec(obj2, obj1);  }
 
-	friend float atan2f(Point2D const & obj)  {  return atan2f(obj.y(), obj.x());  }
+	
 	
 	Point2D & Point()  {  return m_origin;  }
 	Point2D & Vector()  {  return m_direction;  }

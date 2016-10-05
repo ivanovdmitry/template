@@ -13,16 +13,8 @@ public:
 	Box2D(Point2D const & obj1, Point2D const & obj2) : m_min(obj1), m_max(obj2) {};
 	Box2D(float x1, float y1, float x2, float y2)
 	{
-		if (x1 < x2)
-		{
-			m_min = { x1, y1 };
-			m_max = { x2, y2 };
-		}
-		else
-		{
-			m_min = { x2, y2 };
-			m_max = { x1, y1 };
-		}
+		m_min = { std::min(x1,x2), std::min(y1, y2) };
+		m_max = { std::max(x1,x2), std::max(y1, y2) };
 	}
 	Box2D(std::initializer_list<float> const & lst)
 	{
@@ -30,7 +22,7 @@ public:
 		int const count = sizeof(vals) / sizeof(vals[0]);
 		auto it = lst.begin();
 		for (int i = 0; i < count && it != lst.end(); i++, it += 2)
-			*vals[i] = { EqualWithEps(*(it)), EqualWithEps(*(it+1))};
+			*vals[i] = { EqualWithEps(*(it)), EqualWithEps(*(it+1)) };
 	}
 
 	Box2D(std::initializer_list<Point2D> const & lst)

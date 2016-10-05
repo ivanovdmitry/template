@@ -39,6 +39,8 @@ public:
 		return m_y < obj.m_y;
 	}
 
+	friend float atan2(Point2D const & obj)  {  return atan2(obj.y(), obj.x());  }
+
 	Point2D operator + (Point2D const & obj) const	{  return{ m_x + obj.m_x, m_y + obj.m_y };  }
 
 	Point2D operator - (Point2D const & obj) const	{  return{ m_x - obj.m_x, m_y - obj.m_y };  }
