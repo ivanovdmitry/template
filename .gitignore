@@ -73,11 +73,3 @@ Thumbs.db
 # Custom
 .idea/
 CMakeLists.txt.user
-
-
-CMakeCache.txt
-CMakeFiles/
-CTestTestfile.cmake
-cmake_install.cmake
-template
-template_test
