@@ -4,6 +4,7 @@
 #include <initializer_list>
 #include <functional>
 #include <ostream>
+#include <exception>
 
 class Point2D
 {
@@ -48,8 +49,8 @@ public:
 
 	Point2D operator / (float scale) const
 	{
-		if (scale == 0) return{ INFINITY , INFINITY };
-		return{ m_x / scale, m_y / scale };
+		if (scale == 0) throw std::invalid_argument("division by zero");
+		return { m_x / scale, m_y / scale };
 	}
 
 	Point2D & operator += (Point2D const & obj)
@@ -77,9 +78,10 @@ public:
 	{
 		if (scale == 0)
 		{
-			m_x = INFINITY;
+			throw std::invalid_argument("division by zero");
+			/*m_x = INFINITY;
 			m_y = INFINITY;
-			return *this;
+			return *this;*/
 		}
 		m_x /= scale;
 		m_y /= scale;

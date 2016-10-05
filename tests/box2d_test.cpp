@@ -66,3 +66,11 @@ TEST(Box2D_test, test_square_brackets)
   EXPECT_EQ(box[1], Point2D(1.0, 1.0));
   ASSERT_THROW(box[2], std::invalid_argument);
 }
+
+TEST(Box2D_test, test_centre)
+{
+  Box2D box1;
+  EXPECT_EQ(box1.Centre(), Point2D(0.5, 0.5));
+  Box2D box2 = { Point2D(-1.0, -1.0), Point2D(1.0, 1.0)};
+  EXPECT_EQ(box2.Centre(), Point2D(0.0, 0.0));
+}
