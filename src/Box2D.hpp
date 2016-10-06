@@ -105,9 +105,9 @@ public:
 
 private:
   void CheckBox() 
-    { 
-      if (m_max.x() < m_min.x()) std::swap(m_min.x(), m_max.x()); 
-      if (m_max.y() < m_min.y()) std::swap(m_min.y(), m_max.y()); 
-    }
+  { 
+    if (m_max.x() < m_min.x()) std::swap(m_min.x(), m_max.x()); 
+    if (m_max.y() < m_min.y()) std::swap(m_min.y(), m_max.y()); 
+  }
   Point2D m_min = { 0.0f, 0.0f }, m_max = { 0.0f, 0.0f };
 };
