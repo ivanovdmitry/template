@@ -5,6 +5,7 @@
 #include <initializer_list>
 #include <ostream>
 #include <exception>
+#include <vector>
 
 #include "CompareWithZero.hpp"
 
@@ -12,19 +13,23 @@ class Box2D
 {
 public:
   Box2D() = default;
-  Box2D(Point2D const & obj1, Point2D const & obj2) : m_min(obj1), m_max(obj2) { CheckBox(); }
-  Box2D(float x1, float y1, float x2, float y2)
-  {
-    m_min = { std::min(x1,x2), std::min(y1, y2) };
-    m_max = { std::max(x1,x2), std::max(y1, y2) };
-  }
+  Box2D(Point2D const & obj1, Point2D const & obj2 = Point2D(0.0, 0.0)) : m_min(obj1), m_max(obj2) { CheckBox(); }
+  Box2D(float x1, float y1 = 0.0, float x2 = 0.0, float y2 = 0.0) : m_min(x1, y1), m_max(x2, y2) { CheckBox(); }
+
   Box2D(std::initializer_list<float> const & lst)
   {
+    std::vector<float> v (lst.begin(), lst.end());
+    while (v.size() <= 3) v.push_back(0);
+
     Point2D * vals[] = { &m_min, &m_max };
     int const count = sizeof(vals) / sizeof(vals[0]);
-    auto it = lst.begin();
-    for (int i = 0; i < count && it != lst.end(); i++, it += 2)
+
+    while (v.size() <= 2) v.push_back(0.0);
+
+    auto it = v.begin();
+    for (int i = 0; i < count && it <= v.end(); i++, it += 2)
       *vals[i] = { CompareWithZero::EqualWithEps(*(it)), CompareWithZero::EqualWithEps(*(it+1)) };
+    CheckBox();
   }
 
   Box2D(std::initializer_list<Point2D> const & lst)
@@ -33,7 +38,7 @@ public:
     int const count = sizeof(vals) / sizeof(vals[0]);
     auto it = lst.begin();
     for (int i = 0; i < count && it != lst.end(); i++, it ++)
-      *vals[i] =  *(it) ;
+      *vals[i] =  *(it);
     CheckBox();
   }
 
@@ -45,9 +50,9 @@ public:
     return *this;
   }
 
-  bool operator == (Box2D const & obj) const {  return (m_min == obj.m_min) && (m_max == obj.m_max);  }
+  bool operator == (Box2D const & obj) const { return (m_min == obj.m_min) && (m_max == obj.m_max); }
 
-  bool operator != (Box2D const & obj)  {  return !operator==(obj);  }
+  bool operator != (Box2D const & obj) const { return !operator==(obj); }
 
   Point2D operator [] (unsigned int index) const throw (std::invalid_argument)
   {
@@ -55,12 +60,12 @@ public:
     return index == 0 ? m_min : m_max;
   }
 
-  Point2D Centre () const  {  return (m_min + m_max) / 2.0;  }
+  Point2D Centre () const { return (m_min + m_max) / 2.0; }
 
   friend bool Intsec (Box2D const & obj1, Box2D const & obj2)
   {
-    if ( (obj1.m_max.y() >= obj2.m_min.y()) && (obj1.m_min.y() <= obj2.m_max.y()) ) 
-    return (obj1.m_max.x() >= obj2.m_min.x()) && (obj1.m_min.x() <= obj2.m_max.x());
+    return (obj1.m_max.y() >= obj2.m_min.y()) && (obj1.m_min.y() <= obj2.m_max.y()) && 
+      (obj1.m_max.x() >= obj2.m_min.x()) && (obj1.m_min.x() <= obj2.m_max.x());    
   }
 
   Box2D & Move(Point2D const & obj)
@@ -81,21 +86,8 @@ public:
     return *this;
   }
 
-  Point2D & LeftBottom()  {  return m_min;  }
-  Point2D & RightTop()  {  return m_max;  }
-  Point2D LeftTop() 
-  {
-    Point2D point = { m_min.x(), m_max.y() };
-    return point;
-  }
-  Point2D RightBottom() 
-  {
-    Point2D point = { m_max.x(), m_min.y() };
-    return point;
-  }
-
-  Point2D const & LeftBottom() const  {  return m_min;  }
-  Point2D const & RightTop() const  {  return m_max;  }
+  Point2D const & LeftBottom() const { return m_min; }
+  Point2D const & RightTop() const { return m_max; }
   Point2D const LeftTop() const
   {
     Point2D point = { m_min.x(), m_max.y() };
@@ -116,8 +108,9 @@ public:
 private:
   void CheckBox() 
     { 
-      if (m_max < m_min) std::swap(m_min, m_max);  
+    	if (m_max.x() < m_min.x()) std::swap(m_min.x(), m_max.x()); 
+    	if (m_max.y() < m_min.y()) std::swap(m_min.y(), m_max.y()); 
     }
 
-  Point2D m_min = { 0.0f, 0.0f }, m_max = { 1.0f, 1.0f };
+  Point2D m_min = { 0.0f, 0.0f }, m_max = { 0.0f, 0.0f };
 };

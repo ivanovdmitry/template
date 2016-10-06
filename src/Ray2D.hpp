@@ -26,7 +26,7 @@ public:
     int const count = sizeof(vals) / sizeof(vals[0]);
     auto it = lst.begin();
     for (int i = 0; i < count && it != lst.end(); i++, it ++)
-      *vals[i] =  *(it) ;
+      *vals[i] =  *(it);
   }
 
   Ray2D & operator = (Ray2D const & obj)
@@ -37,9 +37,9 @@ public:
     return *this;
   }
 
-  bool operator == (Ray2D const & obj) const {  return (m_origin == obj.m_origin) && (m_direction == obj.m_direction);  }
+  bool operator == (Ray2D const & obj) const { return (m_origin == obj.m_origin) && (m_direction == obj.m_direction); }
 
-  bool operator != (Ray2D const & obj)  {  return !operator==(obj);  }
+  bool operator != (Ray2D const & obj) { return !operator==(obj); }
 
 
   Ray2D & Move(Point2D const & obj)
@@ -51,8 +51,8 @@ public:
 
   Ray2D & Move(float x, float y)
   {
-    if ( CompareWithZero::EqualWithEps(m_origin.x(), x) && CompareWithZero::EqualWithEps(m_origin.y(), y) ) 
-    	return *this;
+    if ( CompareWithZero::EqualWithEps(m_origin.x(), x) && CompareWithZero::EqualWithEps(m_origin.y(), y))
+      return *this;
     m_origin.Move(x, y);
     return *this;
   }
@@ -69,11 +69,11 @@ public:
     };
     float v = atan2(obj2.Vector());
 
-    for (auto i: arr)
+    for (auto & i: arr)
     {
       if (v >= i)
       {
-        for (auto k : arr)
+        for (auto & k : arr)
         {
           if (v <= k) return true;
         }
@@ -83,15 +83,13 @@ public:
     return false;
   }
 
-  friend bool Intsec(Ray2D const & obj1, Box2D const & obj2)  {  return Intsec(obj2, obj1);  }
+  friend bool Intsec(Ray2D const & obj1, Box2D const & obj2) { return Intsec(obj2, obj1); }
 
-  
-  
-  Point2D & Point()  {  return m_origin;  }
-  Point2D & Vector()  {  return m_direction;  }
+  Point2D & Point() { return m_origin; }
+  Point2D & Vector() { return m_direction; }
 
-  Point2D const & Point() const  {  return m_origin;  }
-  Point2D const & Vector() const  {  return m_direction;  }
+  Point2D const & Point() const { return m_origin; }
+  Point2D const & Vector() const { return m_direction; }
 
   friend std::ostream & operator << (std::ostream & os, Ray2D const & obj)
   {

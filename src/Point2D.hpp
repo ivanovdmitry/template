@@ -13,7 +13,7 @@ class Point2D
 public:
   Point2D() = default;
   Point2D(Point2D const & obj) : m_x(obj.m_x), m_y(obj.m_y) {};
-  Point2D(float x, float y) : m_x(x), m_y(y) {};
+  Point2D(float x, float y = 0.0) : m_x(x), m_y(y) {};
   Point2D(std::initializer_list<float> const & lst)
   {
     float * vals[] = { &m_x, &m_y };
@@ -31,12 +31,12 @@ public:
     return *this;
   }
 
-  bool operator == (Point2D const & obj) const 
+  bool operator == (Point2D const & obj) const
   {  
-  	return CompareWithZero::EqualWithEps(m_x, obj.m_x) && CompareWithZero::EqualWithEps(m_y, obj.m_y);  
+    return CompareWithZero::EqualWithEps(m_x, obj.m_x) && CompareWithZero::EqualWithEps(m_y, obj.m_y);
   }
 
-  bool operator != (Point2D const & obj) const  {  return !operator==(obj);  }
+  bool operator != (Point2D const & obj) const { return !operator==(obj); }
 
   bool operator < (Point2D const & obj) const
   {
@@ -44,15 +44,15 @@ public:
     return m_y < obj.m_y;
   }
 
-  friend float atan2(Point2D const & obj)  {  return atan2(obj.y(), obj.x());  }
+  friend float atan2(Point2D const & obj) { return atan2(obj.y(), obj.x()); }
 
-  Point2D operator + (Point2D const & obj) const  {  return{ m_x + obj.m_x, m_y + obj.m_y };  }
+  Point2D operator + (Point2D const & obj) const { return{ m_x + obj.m_x, m_y + obj.m_y }; }
 
-  Point2D operator - (Point2D const & obj) const  {  return{ m_x - obj.m_x, m_y - obj.m_y };  }
+  Point2D operator - (Point2D const & obj) const { return{ m_x - obj.m_x, m_y - obj.m_y }; }
 
-  Point2D operator - () const  {  return{ -m_x, -m_y };  }
+  Point2D operator - () const { return{ -m_x, -m_y }; }
 
-  Point2D operator * (float scale) const  {  return{ m_x*scale, m_y*scale };  }
+  Point2D operator * (float scale) const { return{ m_x*scale, m_y*scale }; }
 
   Point2D operator / (float scale) const throw (std::invalid_argument)
   {
@@ -83,13 +83,7 @@ public:
 
   Point2D & operator /= (float scale) throw (std::invalid_argument)
   {
-    if (scale == 0)
-    {
-      throw std::invalid_argument("division by zero");
-      /*m_x = INFINITY;
-      m_y = INFINITY;
-      return *this;*/
-    }
+    if (scale == 0) throw std::invalid_argument("division by zero");
     m_x /= scale;
     m_y /= scale;
     return *this;
