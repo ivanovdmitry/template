@@ -10,8 +10,8 @@ class Ray2D
 {
 public:
   Ray2D() = default;
-  Ray2D(Point2D const & obj1, Point2D const & obj2) : m_origin(obj1), m_direction(obj2) {}
-  Ray2D(float x1, float y1, float x2, float y2) : m_origin(x1, y1), m_direction(x2, y2) {}
+  Ray2D(Point2D const & obj1, Point2D const & obj2) : m_origin(obj1), m_direction(obj2) { }
+  Ray2D(float x1, float y1, float x2, float y2) : m_origin(x1, y1), m_direction(x2, y2) { }
   Ray2D(std::initializer_list<float> const & lst)
   {
     Point2D * vals[] = { &m_origin, &m_direction };
@@ -57,8 +57,6 @@ public:
     return *this;
   }
 
-  
-
   friend bool Intsec(Box2D const & obj1, Ray2D const & obj2)
   {
     float arr[] = { 
@@ -90,6 +88,16 @@ public:
 
   Point2D const & Point() const { return m_origin; }
   Point2D const & Vector() const { return m_direction; }
+
+  float const Lenght() const { 
+    Point2D temp = m_direction - m_origin;
+    return std::sqrt(temp.x()*temp.x() + temp.y()*temp.y()); 
+  }
+
+  void Normalization() 
+  {
+    m_direction = (m_direction - m_origin) / Lenght() + m_origin;
+  }
 
   friend std::ostream & operator << (std::ostream & os, Ray2D const & obj)
   {

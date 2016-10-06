@@ -73,8 +73,10 @@ TEST(point2d_test, test_calculus)
   p1 /= 2.0f;
   EXPECT_EQ(p1, Point2D(1.2f, 2.4f));
 
-
   ASSERT_THROW(p1 / 0.0f, std::invalid_argument);
+
+  Point2D p3 = { 6.0f, 8.0f };
+  EXPECT_EQ(p3.Lenght(), 10.0);
 }
 
 TEST(point2d_test, test_square_brackets)
@@ -101,4 +103,18 @@ TEST(point2d_test, test_output)
   std::stringstream s;
   s << Point2D(1.2f, 0.2f);
   EXPECT_EQ(s.str(), "Point 2D {1.2, 0.2}");
+}
+
+TEST(point2d_test, test_lenght)
+{
+  Point2D p = {6.0, 8.0};
+  EXPECT_EQ(p.Lenght(), 10.0);
+}
+
+TEST(point2d_test, test_normalization)
+{
+  Point2D p = {6.0, 8.0};
+  p.Normalization();
+  EXPECT_EQ(p.x(), 0.6f);
+  EXPECT_EQ(p.y(), 0.8f);
 }

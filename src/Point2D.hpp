@@ -46,9 +46,9 @@ public:
 
   friend float atan2(Point2D const & obj) { return atan2(obj.y(), obj.x()); }
 
-  Point2D operator + (Point2D const & obj) const { return{ m_x + obj.m_x, m_y + obj.m_y }; }
+  Point2D operator + (Point2D const & obj) const { return { m_x + obj.m_x, m_y + obj.m_y }; }
 
-  Point2D operator - (Point2D const & obj) const { return{ m_x - obj.m_x, m_y - obj.m_y }; }
+  Point2D operator - (Point2D const & obj) const { return { m_x - obj.m_x, m_y - obj.m_y }; }
 
   Point2D operator - () const { return{ -m_x, -m_y }; }
 
@@ -115,6 +115,15 @@ public:
 
   float const & x() const  {  return m_x;  }
   float const & y() const  {  return m_y;  }
+
+  float const Lenght() const { return std::sqrt(m_x*m_x + m_y*m_y); }
+
+  void Normalization() 
+  {
+    float lenght = Lenght();
+    m_x /= lenght;
+    m_y /= lenght;
+  }
 
   struct Hash
   {
