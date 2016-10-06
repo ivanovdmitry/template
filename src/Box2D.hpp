@@ -24,8 +24,6 @@ public:
     Point2D * vals[] = { &m_min, &m_max };
     int const count = sizeof(vals) / sizeof(vals[0]);
 
-    while (v.size() <= 2) v.push_back(0.0);
-
     auto it = v.begin();
     for (int i = 0; i < count && it <= v.end(); i++, it += 2)
       *vals[i] = { CompareWithZero::EqualWithEps(*(it)), CompareWithZero::EqualWithEps(*(it+1)) };
