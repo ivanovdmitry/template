@@ -112,7 +112,7 @@ public:
 
   friend std::ostream & operator << (std::ostream & os, Box2D const & obj)
   {
-    os << "Box 2D {Left Bot " << obj.LeftBottom() << ", Right Top " << obj.RightTop() << "}";
+    os << "Box 2D {Left Bottom " << obj.LeftBottom() << ", Right Top " << obj.RightTop() << "}";
     return os;
   }
 
