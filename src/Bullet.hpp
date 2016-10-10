@@ -1,8 +1,6 @@
 #pragma once
 
 #include "IGameObject.hpp"
-#include "Box2D.hpp"
-#include "Ray2D.hpp"
 
 class Bullet : public IGameObject
 {

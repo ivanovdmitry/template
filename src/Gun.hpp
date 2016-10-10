@@ -1,8 +1,7 @@
 #pragma once
 
 #include "IGameObject.hpp"
-#include "Box2D.hpp"
-#include "Ray2D.hpp"
+#include "Bullet.hpp"
 
 class Gun : public IGameObject
 {
@@ -19,12 +18,17 @@ public:
   int const & GetCage() { return m_cage; }
   bool const & GetCanShoot() { return m_is_enable; }
 
-// TODO: return the bullet
-  void Shot() 
+  Bullet Shot() 
   {
     if (m_cage > 0) 
+    {
       m_cage--;
-    else if (m_cage <= 0) 
+      Bullet bullet;
+      bullet.SetDirection(Ray2D(m_direction));
+      // all sets
+      return bullet;
+    }
+    else 
       m_is_enable = false;
   }
 
