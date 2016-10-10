@@ -3,7 +3,7 @@
 #include <sstream>
 #include <unordered_set>
 
-TEST(point2d_test, test_construction)
+TEST(Point2D_test, test_construction)
 {
   // Тест на создание объекта по умолчанию.
   Point2D p1;
@@ -20,7 +20,7 @@ TEST(point2d_test, test_construction)
   EXPECT_EQ(p3, p2);
 }
 
-TEST(point2d_test, test_initializer_list)
+TEST(Point2D_test, test_initializer_list)
 {
   Point2D p1 = { 1.0f, 2.0f, 3.0f };
   EXPECT_EQ(p1.x(), 1.0f);
@@ -31,14 +31,14 @@ TEST(point2d_test, test_initializer_list)
   EXPECT_EQ(p2.y(), 0.0f);
 }
 
-TEST(point2d_test, test_assignment)
+TEST(Point2D_test, test_assignment)
 {
   Point2D p1;
   p1 = { 1.2f, 2.4f };
   EXPECT_EQ(p1, Point2D(1.2f, 2.4f));
 }
 
-TEST(point2d_test, test_equality)
+TEST(Point2D_test, test_equality)
 {
   Point2D p1 = { 1.2f, 2.4f };
   Point2D p2 = { 1.2f, 2.4f };
@@ -51,7 +51,7 @@ TEST(point2d_test, test_equality)
   EXPECT_LT(p1, p4);
 }
 
-TEST(point2d_test, test_calculus)
+TEST(Point2D_test, test_calculus)
 {
   Point2D p1 = { 1.2f, 2.4f };
   Point2D p2 = { 1.0f, 2.0f };
@@ -79,7 +79,7 @@ TEST(point2d_test, test_calculus)
   EXPECT_EQ(p3.Lenght(), 10.0);
 }
 
-TEST(point2d_test, test_square_brackets)
+TEST(Point2D_test, test_square_brackets)
 {
   Point2D p1 = { 1.2f, 2.4f };
   EXPECT_EQ(p1[0], 1.2f);
@@ -87,7 +87,7 @@ TEST(point2d_test, test_square_brackets)
   EXPECT_EQ(p1[2], 0.0f);
 }
 
-TEST(point2d_test, test_hash)
+TEST(Point2D_test, test_hash)
 {
   Point2D::Hash hasher;
   EXPECT_EQ(hasher(Point2D(0.0f, 0.0f)), 0);
@@ -98,7 +98,7 @@ TEST(point2d_test, test_hash)
   EXPECT_EQ(hashTable.size(), 2);
 }
 
-TEST(point2d_test, test_output)
+TEST(Point2D_test, test_output)
 {
   std::stringstream s;
   s << Point2D(1.2f, 0.2f);
@@ -117,4 +117,15 @@ TEST(point2d_test, test_normalization)
   p.Normalization();
   EXPECT_EQ(p.x(), 0.6f);
   EXPECT_EQ(p.y(), 0.8f);
+}
+
+TEST(Point2D_test, test_move_semantics)
+{
+  Point2D point1;
+  Point2D point2(1.0f, 1.0f);
+  EXPECT_EQ(point1 = std::move(point2), Point2D(1.0f, 1.0f));
+  EXPECT_EQ(point2, Point2D(0.0f, 0.0f));
+
+  Point2D point3(Point2D(1.0f, 1.0f));
+  EXPECT_EQ(point3, Point2D(1.0f, 1.0f));
 }
