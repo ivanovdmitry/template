@@ -16,7 +16,7 @@ public:
   Box2D const & GetObject() const { return m_object; }
   Ray2D const & GetDirection() const { return m_direction; }
   int const & GetCage() { return m_cage; }
-  bool const & GetCanShoot() { return m_is_enable; }
+  bool const & GetCanShoot() { return m_is_enabled; }
 
   Bullet Shot() 
   {
@@ -29,12 +29,12 @@ public:
       return bullet;
     }
     else 
-      m_is_enable = false;
+      m_is_enabled = false;
   }
 
   void Draw() 
   {
-    if (!m_is_enable) 
+    if (!m_is_enabled) 
     {
       // img inaccessible weapons
       return;
@@ -53,5 +53,5 @@ protected: // can make a choice weapon by inheritance
   // which direction
   Ray2D m_direction = { 0.5f, 0.5f, 1.0f, 0.5f };
   int m_cage = 5;
-  bool m_is_enable = true;
+  bool m_is_enabled = true;
 };

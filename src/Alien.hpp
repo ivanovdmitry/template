@@ -1,9 +1,6 @@
 #pragma once
 
 #include "IGameObject.hpp"
-#include "Box2D.hpp"
-#include "Ray2D.hpp"
-
 
 class Alien : public IGameObject
 {
@@ -14,7 +11,7 @@ public:
 
   void UpDate () override
   {
-    if (m_is_alive) 
+    if (m_is_enabled) 
     {
       m_object.Move(m_object.Centre() + m_direction.GetDirectionNormal() * m_velocity);
       Draw();
@@ -25,7 +22,7 @@ public:
   {
     m_health -= health; 
     if (m_health <= 0)
-      m_is_alive = false;
+      m_is_enabled = false;
   }
  
   void SetObject(Box2D && object)  { m_object = std::move(object); }
@@ -37,7 +34,7 @@ public:
   Ray2D const & GetDirection() const { return m_direction; }
   float const & GetVelocity() { return m_velocity; }
   float const & GetHealth() { return m_health; }
-  bool const & GetIsAlive() {return m_is_alive; }
+  bool const & GetIsAlive() {return m_is_enabled; }
 
 protected:
 // It's defines the position and dimensions
@@ -47,5 +44,5 @@ protected:
   // flight speed
   float m_velocity = 1.0f;
   float m_health = 100.0f;
-  bool m_is_alive = true;
+  bool m_is_enabled = true;
 };
