@@ -6,20 +6,27 @@
 
 #include "CompareWithZero.hpp"
 
-class Ray2D 
+class Ray2D
 {
 public:
   Ray2D() = default;
   Ray2D(Point2D const & obj1, Point2D const & obj2) : m_origin(obj1), m_direction(obj2) { }
   Ray2D(float x1, float y1, float x2, float y2) : m_origin(x1, y1), m_direction(x2, y2) { }
+  Ray2D(Ray2D const & obj) : m_origin(obj.m_origin), m_direction(obj.m_direction) { }
+
   Ray2D(std::initializer_list<float> const & lst)
   {
+    std::vector<float> v (lst.begin(), lst.end());
+    while (v.size() <= 3) v.push_back(0);
+
     Point2D * vals[] = { &m_origin, &m_direction };
     int const count = sizeof(vals) / sizeof(vals[0]);
-    auto it = lst.begin();
-    for (int i = 0; i < count && it != lst.end(); i++, it += 2)
+
+    auto it = v.begin();
+    for (int i = 0; i < count && it != v.end(); i++, it += 2)
       *vals[i] = { CompareWithZero::EqualWithEps(*it), CompareWithZero::EqualWithEps(*(it + 1)) };
   }
+  
   Ray2D(std::initializer_list<Point2D> const & lst)
   {
     Point2D * vals[] = { &m_origin, &m_direction };
@@ -27,6 +34,19 @@ public:
     auto it = lst.begin();
     for (int i = 0; i < count && it != lst.end(); i++, it ++)
       *vals[i] =  *(it);
+  }
+
+  Ray2D(Ray2D && obj)
+  {
+    std::swap(m_origin, obj.m_origin);
+    std::swap(m_direction, obj.m_direction);
+  }
+
+  Ray2D & operator = (Ray2D && obj)
+  {
+    std::swap(m_origin, obj.m_origin);
+    std::swap(m_direction, obj.m_direction);
+    return *this;
   }
 
   Ray2D & operator = (Ray2D const & obj)
