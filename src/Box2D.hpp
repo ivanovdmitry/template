@@ -15,7 +15,7 @@ public:
   Box2D() = default;
   Box2D(Point2D const & obj1, Point2D const & obj2 = Point2D(0.0, 0.0)) : m_min(obj1), m_max(obj2) { CheckBox(); }
   Box2D(float x1, float y1 = 0.0, float x2 = 0.0, float y2 = 0.0) : m_min(x1, y1), m_max(x2, y2) { CheckBox(); }
-  Box2D(Box2D const & obj) : m_min(obj.m_min), m_max(obj.m_max) {};
+  Box2D(Box2D const & obj) : m_min(obj.m_min), m_max(obj.m_max) {}
   Box2D(std::initializer_list<float> const & lst)
   {
     std::vector<float> v (lst.begin(), lst.end());
