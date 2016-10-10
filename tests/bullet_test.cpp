@@ -47,3 +47,10 @@ TEST(bullet_test, test_move)
   bullet.Move();
   EXPECT_EQ(bullet.GetObject(), Box2D(1.0, 0.5, 2.0, 1.5));
 }
+
+TEST(bullet_test, test_output)
+{
+  std::stringstream s;
+  s << Bullet();
+  EXPECT_EQ(s.str(), "Unit: Bullet object: Box 2D {Left Bottom Point 2D {0, 0}, Right Top Point 2D {1, 1}}; Direction Ray 2D { Origin Point 2D {0, 0}, Direction Point 2D {1, 0.5}}; Velocity = 1; Energy = 1; is enabled = 1");
+}

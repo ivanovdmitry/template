@@ -6,6 +6,10 @@ class Alien : public IGameObject
 {
 public:
   Alien() = default;
+  Alien(Point2D const & centre) 
+  {
+    m_object.Move(centre);
+  }
 
   void Draw() {}
 
@@ -32,9 +36,16 @@ public:
 
   Box2D const & GetObject() const { return m_object; }
   Ray2D const & GetDirection() const { return m_direction; }
-  float const & GetVelocity() { return m_velocity; }
-  float const & GetHealth() { return m_health; }
-  bool const & GetIsAlive() {return m_is_enabled; }
+  float const & GetVelocity() const { return m_velocity; }
+  float const & GetHealth() const { return m_health; }
+  bool const & GetIsEnabled() const override {return m_is_enabled; }
+
+  friend std::ostream & operator << (std::ostream & os, Alien const & obj)
+  {
+    os << "Unit: Alien object: " << obj.m_object << "; Direction " << obj.m_direction 
+      << "; Velocity = " << obj.m_velocity << "; Health = " << obj.m_health << "; is enabled = " << obj.m_is_enabled;
+    return os;
+  }
 
 protected:
 // It's defines the position and dimensions

@@ -8,4 +8,5 @@ class IGameObject
 public:
   virtual ~IGameObject() = default;
   virtual void UpDate() = 0;
+  virtual bool const & GetIsEnabled() const = 0;
 };

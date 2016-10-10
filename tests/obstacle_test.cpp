@@ -22,3 +22,10 @@ TEST(obstacle_test, test_enable)
   obstacle.SetIsEnabled(false);
   EXPECT_EQ(obstacle.GetIsEnabled(), false);
 }
+
+TEST(obstacle_test, test_output)
+{
+  std::stringstream s;
+  s << Obstacle();
+  EXPECT_EQ(s.str(), "Unit: Obstacle object: Box 2D {Left Bottom Point 2D {0, 0}, Right Top Point 2D {1, 1}}; is enabled = 1");
+}

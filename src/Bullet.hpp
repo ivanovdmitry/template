@@ -19,7 +19,7 @@ public:
   Ray2D const & GetDirection() const { return m_direction; }
   float const & GetVelocity() const { return m_velocity; }
   float const & GetEnergy() const { return m_energy; }
-  bool const & GetIsEnabled() const {return m_is_enabled; }
+  bool const & GetIsEnabled() const override {return m_is_enabled; }
 
 // TODO: intersection
   void Move()
@@ -36,6 +36,12 @@ public:
     Draw();
   } 
 
+  friend std::ostream & operator << (std::ostream & os, Bullet const & obj)
+  {
+    os << "Unit: Bullet object: " << obj.m_object << "; Direction " << obj.m_direction 
+      << "; Velocity = " << obj.m_velocity << "; Energy = " << obj.m_energy << "; is enabled = " << obj.m_is_enabled;
+    return os;
+  }
 protected:
   Box2D m_object = { 0.0f, 0.0f, 1.0f, 1.0f };
   Ray2D m_direction = { 0.0f, 0.0f, 1.0f, 0.5f };

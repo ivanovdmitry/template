@@ -12,7 +12,7 @@ public:
   void SetObject(Box2D const & object)  { m_object = object; }
   void SetObject(Box2D && object)  { m_object = std::move(object); }
   void SetIsEnabled(bool v) {m_is_enabled = v;}
-  bool const & GetIsEnabled() { return m_is_enabled; }
+  bool const & GetIsEnabled() const override { return m_is_enabled; }
   Box2D const & GetObject() const { return m_object; }
 
   void Draw() {}
@@ -21,6 +21,13 @@ public:
     if (!m_is_enabled) return;
     Draw();
   }
+
+  friend std::ostream & operator << (std::ostream & os, Obstacle const & obj)
+  {
+    os << "Unit: Obstacle object: " << obj.m_object << "; is enabled = " << obj.m_is_enabled;
+    return os;
+  }
+
 
 protected:
   Box2D m_object = { 0.0f, 0.0f, 1.0f, 1.0f };

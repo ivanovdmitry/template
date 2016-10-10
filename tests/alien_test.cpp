@@ -10,7 +10,7 @@ TEST(alien_test, test_construction)
   EXPECT_EQ(alien.GetDirection(), Ray2D(0.0f, 0.0f, 1.0f, 0.0f));
   EXPECT_EQ(alien.GetVelocity(), 1.0);
   EXPECT_EQ(alien.GetHealth(), 100.0);
-  EXPECT_EQ(alien.GetIsAlive(), true);
+  EXPECT_EQ(alien.GetIsEnabled(), true);
 
 }
 
@@ -41,6 +41,12 @@ TEST(alien_test, test_update)
   alien.Damage(110);
   alien.UpDate();
   EXPECT_EQ(alien.GetObject(), Box2D(1.0f, 0.0f, 2.0f, 1.0f));
-  EXPECT_EQ(alien.GetIsAlive(), false);
+  EXPECT_EQ(alien.GetIsEnabled(), false);
 }
 
+TEST(alien_test, test_output)
+{
+  std::stringstream s;
+  s << Alien();
+  EXPECT_EQ(s.str(), "Unit: Alien object: Box 2D {Left Bottom Point 2D {0, 0}, Right Top Point 2D {1, 1}}; Direction Ray 2D { Origin Point 2D {0, 0}, Direction Point 2D {1, 0}}; Velocity = 1; Health = 100; is enabled = 1");
+}

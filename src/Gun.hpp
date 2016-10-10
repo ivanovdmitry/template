@@ -15,8 +15,8 @@ public:
 
   Box2D const & GetObject() const { return m_object; }
   Ray2D const & GetDirection() const { return m_direction; }
-  int const & GetCage() { return m_cage; }
-  bool const & GetCanShoot() { return m_is_enabled; }
+  int const & GetCage() const { return m_cage; }
+  bool const & GetIsEnabled() const { return m_is_enabled; }
 
   Bullet Shot() 
   {
@@ -46,6 +46,14 @@ public:
   {
     Draw();
   }
+
+  friend std::ostream & operator << (std::ostream & os, Gun const & obj)
+  {
+    os << "Unit: Gun object: " << obj.m_object << "; Direction " << obj.m_direction 
+      << "; Cage = " << obj.m_cage << "; is enabled = " << obj.m_is_enabled;
+    return os;
+  }
+
 
 protected: // can make a choice weapon by inheritance
   // It's defines the position and dimensions of weapons
