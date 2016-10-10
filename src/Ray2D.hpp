@@ -57,10 +57,13 @@ public:
     return *this;
   }
 
+  Ray2D operator * (float scale) const { return { m_origin, m_direction*scale }; }
+
   bool operator == (Ray2D const & obj) const { return (m_origin == obj.m_origin) && (m_direction == obj.m_direction); }
 
   bool operator != (Ray2D const & obj) { return !operator==(obj); }
 
+  Point2D GetDirectionNormal () { return m_direction - m_origin; }
 
   Ray2D & Move(Point2D const & obj)
   {

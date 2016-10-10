@@ -7,7 +7,7 @@
 class Gun : public IGameObject
 {
 public:
-  Gun() {}
+  Gun() = default;
   Gun (Box2D && object) : m_object(std::move(object)) {}
 
   void SetObject(Box2D && object)  { m_object = std::move(object); }
