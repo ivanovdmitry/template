@@ -83,3 +83,14 @@ TEST(Ray2D_test, test_normalization)
   EXPECT_EQ(ray2.Point(), Point2D(1.0, 2.0));
   EXPECT_EQ(ray2.Vector(), Point2D(1.6, 2.8));
 }
+
+TEST(Ray2D_test, test_move_semantics)
+{
+  Ray2D ray1;
+  Ray2D ray2(0.0f, 0.0f, 1.0f, 1.0f);
+  EXPECT_EQ(ray1 = std::move(ray2), Ray2D(0.0f, 0.0f, 1.0f, 1.0f));
+  EXPECT_EQ(ray2, Ray2D(0.0f, 0.0f, 0.0f, 0.0f));
+
+  Ray2D ray3(Ray2D(0.0f, 0.0f, 1.0f, 1.0f));
+  EXPECT_EQ(ray3, Ray2D(0.0f, 0.0f, 1.0f, 1.0f));
+}

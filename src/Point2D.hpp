@@ -23,6 +23,19 @@ public:
       *vals[i] = *it;
   }
 
+  Point2D(Point2D && obj)
+  {
+    std::swap(m_x, obj.m_x);
+    std::swap(m_y, obj.m_y);
+  }
+
+  Point2D & operator = (Point2D && obj)
+  {
+    std::swap(m_x, obj.m_x);
+    std::swap(m_y, obj.m_y);
+    return *this;
+  }
+
   Point2D & operator = (Point2D const & obj)
   {
     if (this == &obj) return *this;
