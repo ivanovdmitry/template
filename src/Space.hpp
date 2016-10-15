@@ -9,7 +9,7 @@ class Space
 public:
   Space() = default;
 
-  void CreateNewUnit(UnitType unittype, Point2D const & centre) throw (std::invalid_argument)
+  void CreateNewUnit(UnitType unittype, Point2D const & centre) 
   {
     m_units.push_back(std::make_pair(UnitsFactory::CreateUnitByType(unittype, centre), unittype));
   }

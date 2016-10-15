@@ -13,7 +13,7 @@ class UnitsFactory
 {
 public:
   template<typename... Args>
-  static std::shared_ptr<IGameObject> CreateUnitByType(UnitType unittype, Args &&... args)
+  static std::shared_ptr<IGameObject> CreateUnitByType(UnitType unittype, Args &&... args) throw (std::invalid_argument)
   {
     switch (unittype)
     {
