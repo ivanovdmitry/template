@@ -22,19 +22,13 @@ public:
   bool const & GetIsEnabled() const override {return m_is_enabled; }
 
 // TODO: intersection
-  void Move()
+  void Move() override
   {
+    if (!m_is_enabled) return;
     m_object.Move(m_object.Centre() + m_direction.GetDirectionNormal() * m_velocity);
   }
 
-  void Draw() {}
-
-  void UpDate() override 
-  {
-    if (!m_is_enabled) return;
-    Move();
-    Draw();
-  } 
+  void Draw() override {}
 
   friend std::ostream & operator << (std::ostream & os, Bullet const & obj)
   {

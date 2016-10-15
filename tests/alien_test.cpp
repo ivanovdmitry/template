@@ -34,12 +34,12 @@ TEST(alien_test, test_sets)
 TEST(alien_test, test_update)
 {
   Alien alien;
-  alien.UpDate();
+  alien.Move();
 
   EXPECT_EQ(alien.GetObject(), Box2D(1.0f, 0.0f, 2.0f, 1.0f));
 
   alien.Damage(110);
-  alien.UpDate();
+  alien.Move();
   EXPECT_EQ(alien.GetObject(), Box2D(1.0f, 0.0f, 2.0f, 1.0f));
   EXPECT_EQ(alien.GetIsEnabled(), false);
 }

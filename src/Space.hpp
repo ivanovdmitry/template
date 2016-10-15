@@ -26,9 +26,12 @@ public:
   void UpDate() 
   {
     Draw();
-    for (auto i : m_units)
-      i.first->UpDate();
-    m_gun->UpDate();
+    for (auto i : m_units) 
+    {
+      i.first->Move();
+      i.first->Draw();
+    }
+    m_gun->Draw();
   }
 
   std::pair<std::shared_ptr<IGameObject>, UnitType>  const & operator [] (unsigned int index) const { return m_units.at(index); }
