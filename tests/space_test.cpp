@@ -8,9 +8,9 @@ TEST(space_test, test_creation)
 {
   Space space;
 
-  space.CreateNewUnit(Point2D(2.0, 2.0), UnitType::Alien);
-  space.CreateNewUnit(Point2D(2.0, 2.0), UnitType::Obstacle);
-  space.CreateNewUnit(Point2D(2.0, 2.0), UnitType::Bullet);
+  space.CreateNewUnit(UnitType::Alien, Point2D(2.0, 2.0));
+  space.CreateNewUnit(UnitType::Obstacle, Point2D(2.0, 2.0));
+  space.CreateNewUnit(UnitType::Bullet, Point2D(2.0, 2.0));
 
   auto alien = std::static_pointer_cast<Alien> (space[0].first);
   auto obstacle = std::static_pointer_cast<Obstacle> (space[1].first);
@@ -28,4 +28,3 @@ TEST(space_test, test_creation)
   s3 << *bullet;
   EXPECT_EQ(s3.str(), "Unit: Bullet object: Box 2D {Left Bottom Point 2D {0, 0}, Right Top Point 2D {2, 2}}; Direction Ray 2D { Origin Point 2D {0, 0}, Direction Point 2D {1, 0.5}}; Velocity = 1; Energy = 1; is enabled = 1");
 }
-

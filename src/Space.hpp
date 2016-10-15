@@ -2,38 +2,23 @@
 
 #include <memory>
 
-#include "Alien.hpp"
-#include "Bullet.hpp"
-#include "Gun.hpp"
-#include "Obstacle.hpp"
-
-enum class UnitType {Alien, Bullet, Obstacle};
+#include "Factory.hpp"
 
 class Space
 {
 public:
   Space() = default;
 
-  void CreateNewUnit(Point2D const & centre, UnitType unittype) throw (std::invalid_argument)
+  void CreateNewUnit(UnitType unittype, Point2D const & centre) throw (std::invalid_argument)
   {
-    switch (unittype)
-    {
-      case UnitType::Alien: units.push_back(std::make_pair(CreateUnit<Alien>(centre), unittype)); 
-        break;
-      case UnitType::Bullet: units.push_back(std::make_pair(CreateUnit<Bullet>(centre), unittype)); 
-        break;
-      case UnitType::Obstacle: units.push_back(std::make_pair(CreateUnit<Obstacle>(centre), unittype)); 
-        break;
-      default:
-        std::invalid_argument("oops, the real problem");
-    }
+    m_units.push_back(std::make_pair(UnitsFactory::CreateUnitByType(unittype, centre), unittype));
   }
 
   void CheckUnits() 
   {
-    for (auto i = std::begin(units); i != std::end(units); i++)
+    for (auto i = std::begin(m_units); i != std::end(m_units); i++)
       if (!(*i).first->GetIsEnabled())
-        units.erase(i);
+        m_units.erase(i);
   }
 
   void Draw() {}
@@ -41,19 +26,15 @@ public:
   void UpDate() 
   {
     Draw();
-    for (auto i : units)
+    for (auto i : m_units)
       i.first->UpDate();
-    gun->UpDate();
+    m_gun->UpDate();
   }
 
-  std::pair<std::shared_ptr<IGameObject>, UnitType>  const & operator [] (unsigned int index) const { return units.at(index); }
+  std::pair<std::shared_ptr<IGameObject>, UnitType>  const & operator [] (unsigned int index) const { return m_units.at(index); }
 
 
 protected:
-  std::vector<std::pair<std::shared_ptr<IGameObject>, UnitType> > units;
-  std::shared_ptr<Gun> gun;
-  
-private:
-  template<typename T>
-  std::shared_ptr<IGameObject> CreateUnit(Point2D const & centre) const { return std::make_shared<T>(centre); }
+  std::vector<std::pair<std::shared_ptr<IGameObject>, UnitType> > m_units;
+  std::shared_ptr<Gun> m_gun;
 };
