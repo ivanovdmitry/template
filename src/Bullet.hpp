@@ -2,6 +2,8 @@
 
 #include "IGameObject.hpp"
 
+union class Owner {GameUnit, Player};
+
 class Bullet : public IGameObject
 {
 public:
@@ -43,6 +45,7 @@ public:
     return os;
   }
 protected:
+  Owner m_owner = Owner::Player;
   Box2D m_object = { 0.0f, 0.0f, 1.0f, 1.0f };
   Ray2D m_direction = { 0.0f, 0.0f, 1.0f, 0.5f };
   float m_velocity = 1.0;
