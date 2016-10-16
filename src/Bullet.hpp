@@ -1,6 +1,8 @@
 #pragma once
 
 #include "IGameObject.hpp"
+#include "Obstacle.hpp"
+#include "Alien.hpp"
 
 enum class Owner {GameUnit, Player};
 
@@ -37,6 +39,32 @@ public:
     Move();
     Draw();
   } 
+
+  /*Решить проблему говнокода шаблонами*/
+  template <typename T>
+  friend void Contact(Bullet & bullet, T & obj) 
+  {
+    if (Intsec(bullet.GetObject(), obj.GetObject())) 
+    {
+      bullet.m_is_enabled = false;
+      obj.Damage(bullet.m_energy);
+    }
+  }
+
+  template <typename T>
+  friend void Contact(T & obj, Bullet & bullet) 
+  {
+    Contact(bullet, obj);
+  }
+
+  friend void Contact(Bullet & bullet, Alien & obj) 
+  {
+    if (Intsec(bullet.GetObject(), obj.GetObject()) && (Owner::Player == bullet.m_owner)) 
+    {
+      bullet.m_is_enabled = false;
+      obj.Damage(bullet.m_energy);
+    }
+  }
 
   friend std::ostream & operator << (std::ostream & os, Bullet const & obj)
   {

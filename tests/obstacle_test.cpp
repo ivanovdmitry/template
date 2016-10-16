@@ -1,4 +1,5 @@
 #include "Obstacle.hpp"
+#include "Bullet.hpp"
 
 #include "gtest/gtest.h"
 
@@ -28,4 +29,13 @@ TEST(obstacle_test, test_output)
   std::stringstream s;
   s << Obstacle();
   EXPECT_EQ(s.str(), "Unit: Obstacle object: Box 2D {Left Bottom Point 2D {0, 0}, Right Top Point 2D {1, 1}}; is enabled = 1");
+}
+
+TEST(obstacle_test, test_contact)
+{
+  Bullet bullet;
+  Obstacle obstacle;
+
+  Contact(bullet, obstacle);
+  EXPECT_EQ(obstacle.GetIsEnabled(), false);
 }

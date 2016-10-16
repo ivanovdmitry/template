@@ -41,5 +41,5 @@ public:
 protected:
   Box2D m_object = { 0.0f, 0.0f, 1.0f, 1.0f };
   bool m_is_enabled = true;
-  float m_health = 1.0f;//прочность препятствия=числу необходимых попаданий в него
+  float m_health = 1.0f;
 };
