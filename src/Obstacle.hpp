@@ -24,6 +24,13 @@ public:
     Draw();
   }
 
+  void Damage(float const & damage)
+  {
+    m_health -= damage;
+    if (m_health <= 0)
+      m_is_enabled = false;
+  }
+
   friend std::ostream & operator << (std::ostream & os, Obstacle const & obj)
   {
     os << "Unit: Obstacle object: " << obj.m_object << "; is enabled = " << obj.m_is_enabled;
