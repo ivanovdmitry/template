@@ -7,7 +7,7 @@
 #include "Gun.hpp"
 #include "Obstacle.hpp"
 
-enum class UnitType {Alien, Bullet, Obstacle};
+#include "UnitType.hpp"
 
 class UnitsFactory 
 {

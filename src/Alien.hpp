@@ -19,7 +19,7 @@ public:
       m_object.Move(m_object.Centre() + m_direction.GetDirectionNormal() * m_velocity);
   }
 
-  void Damage (float const & damage) 
+  void Damage (float const & damage) override
   {
     m_health -= damage; 
     if (m_health <= 0)
@@ -31,7 +31,7 @@ public:
   void SetVelocity(float velocity) { m_velocity = velocity; }
   void SetHealth(float health) { m_health = health; }
 
-  Box2D const & GetObject() const { return m_object; }
+  Box2D const & GetObject() const override { return m_object; }
   Ray2D const & GetDirection() const { return m_direction; }
   float const & GetVelocity() const { return m_velocity; }
   float const & GetHealth() const { return m_health; }

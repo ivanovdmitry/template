@@ -13,11 +13,19 @@ public:
   void SetDirection(Ray2D && direction) { m_direction = std::move(direction); }
   void SetCage(float cage) { m_cage = cage; }
 
-  Box2D const & GetObject() const { return m_object; }
+  Box2D const & GetObject() const override { return m_object; }
   Ray2D const & GetDirection() const { return m_direction; }
   int const & GetCage() const { return m_cage; }
   bool const & GetIsEnabled() const { return m_is_enabled; }
+  float const & GetHealth() const { return m_health; }
 
+  void Damage (float const & damage) override
+  {
+    m_health -= damage; 
+    if (m_health <= 0)
+      m_is_enabled = false;
+  }
+  
   Bullet Shot() 
   {
     if (m_cage > 0) 
@@ -55,5 +63,6 @@ protected:
   Box2D m_object = { 0.0f, 0.0f, 1.0f, 1.0f };
   Ray2D m_direction = { 0.5f, 0.5f, 1.0f, 0.5f };
   int m_cage = 5;
+  float m_health = 100.0f;
   bool m_is_enabled = true;
 };

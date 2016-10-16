@@ -45,3 +45,13 @@ TEST(gun_test, test_output)
   s << Gun();
   EXPECT_EQ(s.str(), "Unit: Gun object: Box 2D {Left Bottom Point 2D {0, 0}, Right Top Point 2D {1, 1}}; Direction Ray 2D { Origin Point 2D {0.5, 0.5}, Direction Point 2D {1, 0.5}}; Cage = 5; is enabled = 1");
 }
+
+TEST(gun_test, test_contact)
+{
+  Bullet bullet;
+  Gun obj;
+
+  Contact(bullet, obj, UnitType::Alien);
+  EXPECT_EQ(obj.GetIsEnabled(), true);
+  EXPECT_EQ(obj.GetHealth(), 99.0);
+}

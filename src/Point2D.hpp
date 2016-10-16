@@ -140,8 +140,8 @@ public:
 
   friend Point2D GetNormal(Point2D const & obj)
   {
-    float lenght = obj.Lenght();
-    Point2D point = { obj.m_x / lenght, obj.m_y / lenght };
+    Point2D point(obj);
+    point.Normalization();
     return point;
   }
 

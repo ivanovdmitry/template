@@ -63,7 +63,7 @@ public:
 
   bool operator != (Ray2D const & obj) { return !operator==(obj); }
 
-  Point2D GetDirectionNormal () { return GetNormal(m_origin-m_direction); }
+  Point2D GetDirectionNormal () { return GetNormal(m_direction - m_origin); }
 
   Ray2D & Move(Point2D const & obj)
   {

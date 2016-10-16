@@ -28,3 +28,18 @@ TEST(space_test, test_creation)
   s3 << *bullet;
   EXPECT_EQ(s3.str(), "Unit: Bullet object: Box 2D {Left Bottom Point 2D {0, 0}, Right Top Point 2D {2, 2}}; Direction Ray 2D { Origin Point 2D {0, 0}, Direction Point 2D {1, 0.5}}; Velocity = 1; Energy = 1; is enabled = 1");
 }
+
+TEST(bullet_test, test_contact_Space)
+{
+  Bullet bullet;
+  Space obj;
+
+  Contact(bullet, obj, UnitType::Space);
+  EXPECT_EQ(bullet.GetIsEnabled(), true);
+
+  bullet.SetDirection({ 0.0, 0.0, -20.0, -20.0 });
+  bullet.Move();
+
+  Contact(bullet, obj, UnitType::Space);
+  EXPECT_EQ(bullet.GetIsEnabled(), false);
+}

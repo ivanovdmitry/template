@@ -1,8 +1,8 @@
 #pragma once
 
 #include "IGameObject.hpp"
-#include "Obstacle.hpp"
-#include "Alien.hpp"
+
+#include "UnitType.hpp"
 
 enum class Owner {GameUnit, Player};
 
@@ -18,12 +18,15 @@ public:
   void SetDirection(Ray2D && direction) { m_direction = std::move(direction); }
   void SetVelocity(float const & velocity) { m_velocity = velocity; }
   void SetEnergy(float const & energy) { m_energy = energy; }
+  void SetIsEnabled(bool const & is_enabled) {m_is_enabled = is_enabled; }
 
-  Box2D const & GetObject() const { return m_object; }
+  Box2D const & GetObject() const override { return m_object; }
   Ray2D const & GetDirection() const { return m_direction; }
   float const & GetVelocity() const { return m_velocity; }
   float const & GetEnergy() const { return m_energy; }
   bool const & GetIsEnabled() const override {return m_is_enabled; }
+
+  void Damage (float const & damage) override  {}
 
 // TODO: intersection
   void Move() override
@@ -34,30 +37,30 @@ public:
 
   void Draw() override {}
 
-  /*Решить проблему говнокода шаблонами*/
-  template <typename T>
-  friend void Contact(Bullet & bullet, T & obj) 
+  friend void Contact(Bullet & bullet, IGameObject & obj, UnitType unitType) 
   {
     if (Intsec(bullet.GetObject(), obj.GetObject())) 
     {
+      if ((unitType == UnitType::Alien) && (bullet.m_owner == Owner::Player) ||
+          (unitType == UnitType::Gun) && (bullet.m_owner != Owner::Player) ||
+          (unitType == UnitType::Obstacle))
+        obj.Damage(bullet.m_energy);
       bullet.m_is_enabled = false;
-      obj.Damage(bullet.m_energy);
     }
   }
 
-  template <typename T>
-  friend void Contact(T & obj, Bullet & bullet) 
+  friend void Contact(Bullet & bullet, Bullet & obj, UnitType unitType) 
   {
-    Contact(bullet, obj);
-  }
-
-  friend void Contact(Bullet & bullet, Alien & obj) 
-  {
-    if (Intsec(bullet.GetObject(), obj.GetObject()) && (Owner::Player == bullet.m_owner)) 
+    if (Intsec(bullet.GetObject(), obj.GetObject())) 
     {
+      obj.m_is_enabled = false;
       bullet.m_is_enabled = false;
-      obj.Damage(bullet.m_energy);
     }
+  }
+
+  friend void Contact(IGameObject & obj, Bullet & bullet,  UnitType unitType) 
+  {
+    Contact(bullet, obj, unitType);
   }
 
   friend std::ostream & operator << (std::ostream & os, Bullet const & obj)

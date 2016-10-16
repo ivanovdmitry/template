@@ -15,7 +15,7 @@ public:
   void SetHealth(float const & health) { m_health = health; }
 
   bool const & GetIsEnabled() const override { return m_is_enabled; }
-  Box2D const & GetObject() const { return m_object; }
+  Box2D const & GetObject() const override { return m_object; }
 
   void Draw() override {}
   void Move() override 
@@ -23,7 +23,7 @@ public:
     if (!m_is_enabled) return;
   }
 
-  void Damage(float const & damage)
+  void Damage (float const & damage) override
   {
     m_health -= damage;
     if (m_health <= 0)

@@ -3,6 +3,10 @@
 #include "Gun.hpp"
 #include "Obstacle.hpp"
 
+#include "Space.hpp"
+
+#include "UnitType.hpp"
+
 #include "gtest/gtest.h"
 
 
@@ -44,6 +48,7 @@ TEST(bullet_test, test_sets)
   EXPECT_EQ(bullet.GetIsEnabled(), true);
 }
 
+// check:
 TEST(bullet_test, test_move)
 {
   Bullet bullet;
@@ -59,11 +64,39 @@ TEST(bullet_test, test_output)
   EXPECT_EQ(s.str(), "Unit: Bullet object: Box 2D {Left Bottom Point 2D {0, 0}, Right Top Point 2D {1, 1}}; Direction Ray 2D { Origin Point 2D {0, 0}, Direction Point 2D {1, 0.5}}; Velocity = 1; Energy = 1; is enabled = 1");
 }
 
-TEST(bullet_test, test_contact)
+TEST(bullet_test, test_contact_Obstacle)
 {
   Bullet bullet;
-  Obstacle obstacle;
+  Obstacle obj;
 
-  Contact(bullet, obstacle);
+  Contact(bullet, obj, UnitType::Obstacle);
+  EXPECT_EQ(bullet.GetIsEnabled(), false);
+}
+
+TEST(bullet_test, test_contact_Alien)
+{
+  Bullet bullet;
+  Alien obj;
+
+  Contact(bullet, obj, UnitType::Alien);
+  EXPECT_EQ(bullet.GetIsEnabled(), false);
+}
+
+TEST(bullet_test, test_contact_Bullet)
+{
+  Bullet bullet;
+  Bullet obj;
+
+  Contact(bullet, obj, UnitType::Bullet);
+  EXPECT_EQ(bullet.GetIsEnabled(), false);
+  EXPECT_EQ(obj.GetIsEnabled(), false);
+}
+
+TEST(bullet_test, test_contact_Gun)
+{
+  Bullet bullet;
+  Gun obj;
+
+  Contact(bullet, obj, UnitType::Gun);
   EXPECT_EQ(bullet.GetIsEnabled(), false);
 }

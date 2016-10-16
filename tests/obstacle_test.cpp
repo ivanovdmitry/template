@@ -1,6 +1,8 @@
 #include "Obstacle.hpp"
 #include "Bullet.hpp"
 
+#include "UnitType.hpp"
+
 #include "gtest/gtest.h"
 
 
@@ -36,6 +38,6 @@ TEST(obstacle_test, test_contact)
   Bullet bullet;
   Obstacle obstacle;
 
-  Contact(bullet, obstacle);
+  Contact(bullet, obstacle, UnitType::Obstacle);
   EXPECT_EQ(obstacle.GetIsEnabled(), false);
 }
