@@ -2,6 +2,7 @@
 
 #include "Box2D.hpp"
 #include "Ray2D.hpp"
+#include "Space.hpp"
 
 class IGameObject 
 {

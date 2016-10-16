@@ -22,7 +22,7 @@ public:
     }
   }
 
-  void Damage (float health) 
+  void Damage (float const & health) 
   {
     m_health -= health; 
     if (m_health <= 0)

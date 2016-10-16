@@ -63,7 +63,7 @@ public:
 
   bool operator != (Ray2D const & obj) { return !operator==(obj); }
 
-  Point2D GetDirectionNormal () { return m_direction - m_origin; }
+  Point2D GetDirectionNormal () { return GetNormal(m_origin-m_direction); }
 
   Ray2D & Move(Point2D const & obj)
   {
@@ -121,6 +121,7 @@ public:
   {
     m_direction = (m_direction - m_origin) / Lenght() + m_origin;
   }
+
 
   friend std::ostream & operator << (std::ostream & os, Ray2D const & obj)
   {

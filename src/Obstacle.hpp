@@ -12,6 +12,8 @@ public:
   void SetObject(Box2D const & object)  { m_object = object; }
   void SetObject(Box2D && object)  { m_object = std::move(object); }
   void SetIsEnabled(bool v) {m_is_enabled = v;}
+  void SetHealth(float const & health) { m_health = health; }
+
   bool const & GetIsEnabled() const override { return m_is_enabled; }
   Box2D const & GetObject() const { return m_object; }
 
@@ -32,4 +34,5 @@ public:
 protected:
   Box2D m_object = { 0.0f, 0.0f, 1.0f, 1.0f };
   bool m_is_enabled = true;
+  float m_health = 1.0f;//прочность препятствия=числу необходимых попаданий в него
 };
