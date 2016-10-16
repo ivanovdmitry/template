@@ -2,7 +2,7 @@
 
 #include "IGameObject.hpp"
 
-union class Owner {GameUnit, Player};
+enum class Owner {GameUnit, Player};
 
 class Bullet : public IGameObject
 {
