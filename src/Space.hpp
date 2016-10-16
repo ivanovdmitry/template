@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <memory>
+#include <list>
 
 #include "Factory.hpp"
 
@@ -26,15 +27,22 @@ public:
   void UpDate() 
   {
     Draw();
-    for (auto i : m_units)
-      i.first->UpDate();
-    m_gun->UpDate();
+    for (auto i : m_units) 
+    {
+      i.first->Move();
+      i.first->Draw();
+    }
+    m_gun->Draw();
   }
 
-  std::pair<std::shared_ptr<IGameObject>, UnitType>  const & operator [] (unsigned int index) const { return m_units.at(index); }
-
+  std::pair<std::shared_ptr<IGameObject>, UnitType>  const & operator [] (size_t index)  throw (std::out_of_range) 
+  { 
+    auto it = m_units.cbegin();
+    while (index) {it++; index--; }
+    return *(it);
+  }
 
 protected:
-  std::vector<std::pair<std::shared_ptr<IGameObject>, UnitType> > m_units;
+  std::list<std::pair<std::shared_ptr<IGameObject>, UnitType> > m_units;
   std::shared_ptr<Gun> m_gun;
 };

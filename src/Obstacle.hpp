@@ -17,11 +17,10 @@ public:
   bool const & GetIsEnabled() const override { return m_is_enabled; }
   Box2D const & GetObject() const { return m_object; }
 
-  void Draw() {}
-  void UpDate() override 
+  void Draw() override {}
+  void Move() override 
   {
     if (!m_is_enabled) return;
-    Draw();
   }
 
   void Damage(float const & damage)

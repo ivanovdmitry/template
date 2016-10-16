@@ -32,20 +32,16 @@ public:
       m_is_enabled = false;
   }
 
-  void Draw() 
+  void Draw() override
   {
     if (!m_is_enabled) 
     {
       // img inaccessible weapons
       return;
     }
-    // img normal
   }
 
-  void UpDate () override 
-  {
-    Draw();
-  }
+  void Move () override { }
 
   friend std::ostream & operator << (std::ostream & os, Gun const & obj)
   {
@@ -55,10 +51,8 @@ public:
   }
 
 
-protected: // can make a choice weapon by inheritance
-  // It's defines the position and dimensions of weapons
+protected: 
   Box2D m_object = { 0.0f, 0.0f, 1.0f, 1.0f };
-  // which direction
   Ray2D m_direction = { 0.5f, 0.5f, 1.0f, 0.5f };
   int m_cage = 5;
   bool m_is_enabled = true;

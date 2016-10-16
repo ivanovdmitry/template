@@ -11,15 +11,12 @@ public:
     m_object.Move(centre);
   }
 
-  void Draw() {}
+  void Draw() override {}
 
-  void UpDate () override
+  void Move () override
   {
     if (m_is_enabled) 
-    {
       m_object.Move(m_object.Centre() + m_direction.GetDirectionNormal() * m_velocity);
-      Draw();
-    }
   }
 
   void Damage (float const & damage) 
