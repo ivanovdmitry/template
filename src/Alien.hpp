@@ -22,9 +22,9 @@ public:
     }
   }
 
-  void Damage (float health) 
+  void Damage (float const & damage) 
   {
-    m_health -= health; 
+    m_health -= damage; 
     if (m_health <= 0)
       m_is_enabled = false;
   }
