@@ -6,7 +6,6 @@
 #include <iterator> 
 
 #include "Factory.hpp"
-#include <iostream>
 
 class Space
 {

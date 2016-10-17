@@ -51,13 +51,7 @@ public:
     }
   }
 
-  void Draw() override
-  {
-   /* if (!m_isEnabled) 
-    {
-      // img inaccessible weapons
-    }*/
-  }
+  void Draw() override { }
 
   void Move () override { }
 
