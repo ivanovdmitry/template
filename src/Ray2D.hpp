@@ -10,8 +10,11 @@ class Ray2D
 {
 public:
   Ray2D() = default;
+
   Ray2D(Point2D const & obj1, Point2D const & obj2) : m_origin(obj1), m_direction(obj2) { }
+
   Ray2D(float x1, float y1, float x2, float y2) : m_origin(x1, y1), m_direction(x2, y2) { }
+
   Ray2D(Ray2D const & obj) : m_origin(obj.m_origin), m_direction(obj.m_direction) { }
 
   Ray2D(std::initializer_list<float> const & lst)
@@ -36,13 +39,13 @@ public:
       *vals[i] =  *(it);
   }
 
-  Ray2D(Ray2D && obj)
+  Ray2D(Ray2D && obj) noexcept
   {
     std::swap(m_origin, obj.m_origin);
     std::swap(m_direction, obj.m_direction);
   }
 
-  Ray2D & operator = (Ray2D && obj)
+  Ray2D & operator = (Ray2D && obj) noexcept
   {
     std::swap(m_origin, obj.m_origin);
     std::swap(m_direction, obj.m_direction);
@@ -57,22 +60,22 @@ public:
     return *this;
   }
 
-  Ray2D operator * (float scale) const { return { m_origin, m_direction*scale }; }
+  Ray2D operator * (float scale) const noexcept { return { m_origin, m_direction*scale }; }
 
-  bool operator == (Ray2D const & obj) const { return (m_origin == obj.m_origin) && (m_direction == obj.m_direction); }
+  bool operator == (Ray2D const & obj) const  noexcept { return (m_origin == obj.m_origin) && (m_direction == obj.m_direction); }
 
-  bool operator != (Ray2D const & obj) { return !operator==(obj); }
+  bool operator != (Ray2D const & obj) noexcept { return !operator==(obj); }
 
   Point2D GetDirectionNormal () { return GetNormal(m_direction - m_origin); }
 
-  Ray2D & Move(Point2D const & obj)
+  Ray2D & Move(Point2D const & obj) noexcept
   {
     if (m_origin == obj) return *this;
     m_origin = obj;
     return *this;
   }
 
-  Ray2D & Move(float x, float y)
+  Ray2D & Move(float x, float y) noexcept
   {
     if ( CompareWithZero::EqualWithEps(m_origin.x(), x) && CompareWithZero::EqualWithEps(m_origin.y(), y))
       return *this;
@@ -106,13 +109,16 @@ public:
 
   friend bool Intsec(Ray2D const & obj1, Box2D const & obj2) { return Intsec(obj2, obj1); }
 
-  Point2D & Point() { return m_origin; }
-  Point2D & Vector() { return m_direction; }
+  Point2D & Point() noexcept { return m_origin; }
 
-  Point2D const & Point() const { return m_origin; }
-  Point2D const & Vector() const { return m_direction; }
+  Point2D & Vector() noexcept { return m_direction; }
 
-  float const Lenght() const { 
+  Point2D const & Point() const noexcept { return m_origin; }
+
+  Point2D const & Vector() const noexcept { return m_direction; }
+
+  float const Lenght() const 
+  { 
     Point2D temp = m_direction - m_origin;
     return std::sqrt(temp.x()*temp.x() + temp.y()*temp.y()); 
   }
@@ -121,7 +127,6 @@ public:
   {
     m_direction = (m_direction - m_origin) / Lenght() + m_origin;
   }
-
 
   friend std::ostream & operator << (std::ostream & os, Ray2D const & obj)
   {

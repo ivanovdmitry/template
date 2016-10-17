@@ -26,10 +26,10 @@ public:
 
   void Draw() {}
 
-  void UpDate() 
+  void Update() 
   {
     Draw();
-    for (auto i : m_units) 
+    for (auto const & i : m_units) 
     {
       i.first->Move();
       i.first->Draw();
@@ -45,7 +45,7 @@ public:
     }
   }
 
-  std::pair<std::shared_ptr<IGameObject>, UnitType>  const & operator [] (size_t index)  throw (std::out_of_range) 
+  std::pair<std::shared_ptr<IGameObject>, UnitType>  const & operator [] (size_t index)  
   { 
     auto it = m_units.cbegin();
     while (index) {it++; index--; }

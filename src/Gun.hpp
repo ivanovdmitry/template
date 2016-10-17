@@ -7,23 +7,30 @@ class Gun : public IGameObject
 {
 public:
   Gun() = default;
-  Gun (Box2D && object) : m_object(std::move(object)) {}
 
-  void SetObject(Box2D && object)  { m_object = std::move(object); }
-  void SetDirection(Ray2D && direction) { m_direction = std::move(direction); }
-  void SetCage(float cage) { m_cage = cage; }
+  Gun (Box2D && object) noexcept : m_object(std::move(object)) {}
 
-  Box2D const & GetObject() const override { return m_object; }
+  void SetObject(Box2D && object)  noexcept { m_object = std::move(object); }
+
+  void SetDirection(Ray2D && direction) noexcept { m_direction = std::move(direction); }
+
+  void SetCage(float cage) noexcept { m_cage = cage; }
+
+  Box2D const & GetObject() const noexcept override { return m_object; }
+
   Ray2D const & GetDirection() const { return m_direction; }
-  int const & GetCage() const { return m_cage; }
-  bool const & GetIsEnabled() const { return m_is_enabled; }
-  float const & GetHealth() const { return m_health; }
 
-  void Damage (float const & damage) override
+  int const & GetCage() const noexcept { return m_cage; }
+
+  bool const & GetIsEnabled() const noexcept { return m_isEnabled; }
+
+  float const & GetHealth() const noexcept { return m_health; }
+
+  void Damage (float const & damage) noexcept override 
   {
     m_health -= damage; 
     if (m_health <= 0)
-      m_is_enabled = false;
+      m_isEnabled = false;
   }
   
   Bullet Shot() 
@@ -37,12 +44,14 @@ public:
       return bullet;
     }
     else 
-      m_is_enabled = false;
+    {
+      m_isEnabled = false;
+    }
   }
 
   void Draw() override
   {
-    if (!m_is_enabled) 
+    if (!m_isEnabled) 
     {
       // img inaccessible weapons
       return;
@@ -54,15 +63,14 @@ public:
   friend std::ostream & operator << (std::ostream & os, Gun const & obj)
   {
     os << "Unit: Gun object: " << obj.m_object << "; Direction " << obj.m_direction 
-      << "; Cage = " << obj.m_cage << "; is enabled = " << obj.m_is_enabled;
+      << "; Cage = " << obj.m_cage << "; is enabled = " << obj.m_isEnabled;
     return os;
   }
-
 
 protected: 
   Box2D m_object = { 0.0f, 0.0f, 1.0f, 1.0f };
   Ray2D m_direction = { 0.5f, 0.5f, 1.0f, 0.5f };
   int m_cage = 5;
   float m_health = 100.0f;
-  bool m_is_enabled = true;
+  bool m_isEnabled = true;
 };
