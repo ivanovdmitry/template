@@ -3,8 +3,10 @@
 #include <memory>
 #include <list>
 #include <algorithm>
+#include <iterator> 
 
 #include "Factory.hpp"
+#include <iostream>
 
 class Space
 {
@@ -12,6 +14,8 @@ public:
   Space() = default;
 
   Box2D const & GetObject() const { return m_object; }
+
+  size_t const  GetGameObjectsCount() const { return m_units.size(); }
 
   void CreateNewUnit(UnitType unittype, Point2D const & centre) 
   {
@@ -22,22 +26,25 @@ public:
   {
     for (auto i = std::begin(m_units); i != std::end(m_units); i++)
     {
-      if ((*i).second == UnitType::Bullet)
+      if (i->second == UnitType::Bullet)
       {
         for (auto k = std::begin(m_units); k != std::end(m_units); k++)
         {
-          //Contact(static_cast<Bullet>((*i).first.get()), (*k).first.get(), (*k).second);
+          if (i != k) 
+          {
+            Contact(static_cast<Bullet &>(*((*i).first.get())), *((*k).first.get()), (*k).second);
+          }
         }
-        //Contact((*i), *this,  UnitType::Space);
+        Contact(static_cast<Bullet &>(*((*i).first.get())), *this,  UnitType::Space);
       }
     }
   }
 
   void CheckValidUnits() 
   {
-    for (auto i = std::begin(m_units); i != std::end(m_units); i++)
-      if (!(*i).first->GetIsEnabled())
-        m_units.erase(i);
+    for (auto it = std::begin(m_units); it != std::end(m_units); it++)
+      if (!it->first->GetIsEnabled()) 
+        it = m_units.erase(it);
   }
 
   void Draw() {}
@@ -46,11 +53,12 @@ public:
   {
     CheckCollision();
     CheckValidUnits();
+
     Draw();
     for (auto const & i : m_units) 
     {
-      i.first->Move();
       i.first->Draw();
+      i.first->Move();
     }
     m_gun->Draw();
   }
@@ -63,15 +71,15 @@ public:
     }
   }
 
-  std::pair<std::shared_ptr<IGameObject>, UnitType>  const & operator [] (size_t index)  
+  std::pair<std::shared_ptr<IGameObject>, UnitType>  const & operator [] (size_t const index)  
   { 
-    auto it = m_units.cbegin();
-    while (index) {it++; index--; }
+    auto it = std::begin(m_units);
+    std::advance(it, index);
     return *(it);
   }
 
 protected:
-  Box2D m_object = { 0.0f, 0.0f, 1.0f, 1.0f };
-  std::list<std::pair<std::shared_ptr<IGameObject>, UnitType> > m_units;
-  std::shared_ptr<Gun> m_gun;
+  Box2D m_object = { 0.0f, 0.0f, 10.0f, 10.0f };
+  std::list<std::pair<std::shared_ptr<IGameObject>, UnitType>> m_units;
+  std::shared_ptr<IGameObject> m_gun = std::make_shared<Gun>();
 };

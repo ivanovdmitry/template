@@ -8,7 +8,9 @@ class Gun : public IGameObject
 public:
   Gun() = default;
 
-  Gun (Box2D && object) noexcept : m_object(std::move(object)) {}
+  Gun(Box2D && object) noexcept : m_object(std::move(object)) {}
+
+  Gun(Point2D const & centre) { m_object.Move(centre); }
 
   void SetObject(Box2D && object)  noexcept { m_object = std::move(object); }
 
@@ -51,11 +53,10 @@ public:
 
   void Draw() override
   {
-    if (!m_isEnabled) 
+   /* if (!m_isEnabled) 
     {
       // img inaccessible weapons
-      return;
-    }
+    }*/
   }
 
   void Move () override { }

@@ -16,6 +16,8 @@ public:
   Bullet(Ray2D && direction) : m_direction(std::move(direction)) {}
 
   Bullet(Box2D && object, Ray2D &&direction) : m_object(std::move(object)), m_direction(std::move(direction)) {}
+  
+  Bullet(Point2D const & centre) { m_object.Move(centre); }
 
   void SetObject(Box2D && object)  { m_object = std::move(object); }
 
