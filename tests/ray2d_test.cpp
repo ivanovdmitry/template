@@ -82,6 +82,10 @@ TEST(Ray2D_test, test_normalization)
   ray2.Normalization();
   EXPECT_EQ(ray2.Point(), Point2D(1.0, 2.0));
   EXPECT_EQ(ray2.Vector(), Point2D(1.6, 2.8));
+
+  Ray2D ray3 = {0.0, 0.0, 0.0, 0.0};
+  ASSERT_THROW(ray3.Normalization(), std::invalid_argument);
+  ASSERT_THROW(ray3.GetDirectionNormal(), std::invalid_argument);
 }
 
 TEST(Ray2D_test, test_move_semantics)

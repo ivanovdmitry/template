@@ -14,11 +14,11 @@ class Box2D
 public:
   Box2D() = default;
 
-  Box2D(Point2D const & obj1, Point2D const & obj2 = Point2D(0.0, 0.0)) : m_min(obj1), m_max(obj2) { CheckBox(); }
+  Box2D(Point2D const & obj1, Point2D const & obj2 = Point2D(0.0, 0.0)) noexcept : m_min(obj1), m_max(obj2) { CheckBox(); }
 
   Box2D(float x1, float y1 = 0.0, float x2 = 0.0, float y2 = 0.0) noexcept : m_min(x1, y1), m_max(x2, y2) { CheckBox(); }
 
-  Box2D(Box2D const & obj) : m_min(obj.m_min), m_max(obj.m_max) {}
+  Box2D(Box2D const & obj) noexcept : m_min(obj.m_min), m_max(obj.m_max) {}
 
   Box2D(std::initializer_list<float> const & lst)
   {
@@ -77,13 +77,13 @@ public:
 
   Point2D Centre () const noexcept { return (m_min + m_max) / 2.0; }
 
-  friend bool Intsec (Box2D const & obj1, Box2D const & obj2)
+  friend bool Intsec (Box2D const & obj1, Box2D const & obj2) 
   {
     return (obj1.m_max.y() >= obj2.m_min.y()) && (obj1.m_min.y() <= obj2.m_max.y()) && 
       (obj1.m_max.x() >= obj2.m_min.x()) && (obj1.m_min.x() <= obj2.m_max.x());    
   }
 
-  Box2D & Move(Point2D const & obj)
+  Box2D & Move(Point2D const & obj) noexcept
   {
     if (Centre() == obj) return *this;
 

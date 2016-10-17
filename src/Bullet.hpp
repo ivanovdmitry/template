@@ -11,40 +11,47 @@ class Bullet : public IGameObject
 public:
   Bullet() = default;
 
-  Bullet(Box2D && object) : m_object(std::move(object)) {}
+  Bullet(Box2D && object) noexcept : m_object(std::move(object)) {}
 
-  Bullet(Ray2D && direction) : m_direction(std::move(direction)) {}
+  Bullet(Ray2D && direction) noexcept : m_direction(std::move(direction)) {}
 
-  Bullet(Box2D && object, Ray2D &&direction) : m_object(std::move(object)), m_direction(std::move(direction)) {}
+  Bullet(Box2D && object, Ray2D &&direction) noexcept : m_object(std::move(object)), m_direction(std::move(direction)) {}
   
-  Bullet(Point2D const & centre) { m_object.Move(centre); }
+  Bullet(Point2D const & centre) noexcept { m_object.Move(centre); }
 
-  void SetObject(Box2D && object)  { m_object = std::move(object); }
+  void SetObject(Box2D && object) noexcept { m_object = std::move(object); }
 
-  void SetDirection(Ray2D && direction) { m_direction = std::move(direction); }
+  void SetDirection(Ray2D && direction) noexcept { m_direction = std::move(direction); }
 
-  void SetVelocity(float const & velocity) { m_velocity = velocity; }
+  void SetVelocity(float const & velocity) noexcept { m_velocity = velocity; }
 
-  void SetEnergy(float const & energy) { m_energy = energy; }
+  void SetEnergy(float const & energy) noexcept { m_energy = energy; }
 
-  void SetIsEnabled(bool const & is_enabled) {m_isEnabled = is_enabled; }
+  void SetIsEnabled(bool const & is_enabled) noexcept {m_isEnabled = is_enabled; }
 
-  Box2D const & GetObject() const override { return m_object; }
+  Box2D const & GetObject() const noexcept override { return m_object; }
 
-  Ray2D const & GetDirection() const { return m_direction; }
+  Ray2D const & GetDirection() const noexcept { return m_direction; }
 
-  float const & GetVelocity() const { return m_velocity; }
+  float const & GetVelocity() const noexcept { return m_velocity; }
 
-  float const & GetEnergy() const { return m_energy; }
+  float const & GetEnergy() const noexcept { return m_energy; }
 
-  bool const & GetIsEnabled() const override {return m_isEnabled; }
+  bool const & GetIsEnabled() const noexcept override {return m_isEnabled; }
 
   void Damage (float const & damage) override  {}
 
-  void Move() override
+  void Move() override 
   {
     if (!m_isEnabled) return;
-    m_object.Move(m_object.Centre() + m_direction.GetDirectionNormal() * m_velocity);
+    try 
+    {
+      m_object.Move(m_object.Centre() + m_direction.GetDirectionNormal() * m_velocity);
+    } 
+    catch (std::invalid_argument const & e)
+    {
+      // write  logfile
+    }
   }
 
   void Draw() override {}

@@ -39,7 +39,8 @@ TEST(bullet_test, test_contact_Space)
   Contact(bullet, obj, UnitType::Space);
   EXPECT_EQ(bullet.GetIsEnabled(), true);
 
-  bullet.SetDirection({ 0.0, 0.0, -20.0, -20.0 });
+  bullet.SetDirection(Ray2D(0.0, 0.0, -20.0, -20.0)) ;
+  bullet.SetVelocity(10) ;
   bullet.Move();
 
   Contact(bullet, obj, UnitType::Space);

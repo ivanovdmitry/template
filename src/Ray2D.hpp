@@ -11,11 +11,11 @@ class Ray2D
 public:
   Ray2D() = default;
 
-  Ray2D(Point2D const & obj1, Point2D const & obj2) : m_origin(obj1), m_direction(obj2) { }
+  Ray2D(Point2D const & obj1, Point2D const & obj2) noexcept : m_origin(obj1), m_direction(obj2) { }
 
-  Ray2D(float x1, float y1, float x2, float y2) : m_origin(x1, y1), m_direction(x2, y2) { }
+  Ray2D(float x1, float y1, float x2, float y2) noexcept : m_origin(x1, y1), m_direction(x2, y2) { }
 
-  Ray2D(Ray2D const & obj) : m_origin(obj.m_origin), m_direction(obj.m_direction) { }
+  Ray2D(Ray2D const & obj) noexcept : m_origin(obj.m_origin), m_direction(obj.m_direction) { }
 
   Ray2D(std::initializer_list<float> const & lst)
   {
@@ -52,7 +52,7 @@ public:
     return *this;
   }
 
-  Ray2D & operator = (Ray2D const & obj)
+  Ray2D & operator = (Ray2D const & obj) noexcept
   {
     if (this == &obj) return *this;
     m_origin = obj.m_origin;
@@ -120,11 +120,12 @@ public:
   float const Lenght() const 
   { 
     Point2D temp = m_direction - m_origin;
-    return std::sqrt(temp.x()*temp.x() + temp.y()*temp.y()); 
+    return temp.Lenght();
   }
 
   void Normalization() 
   {
+    if (Lenght() == 0) throw std::invalid_argument("division by zero");
     m_direction = (m_direction - m_origin) / Lenght() + m_origin;
   }
 

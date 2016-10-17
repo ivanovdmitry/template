@@ -13,9 +13,9 @@ class Space
 public:
   Space() = default;
 
-  Box2D const & GetObject() const { return m_object; }
+  Box2D const & GetObject() const noexcept { return m_object; }
 
-  size_t const  GetGameObjectsCount() const { return m_units.size(); }
+  size_t const  GetGameObjectsCount() const noexcept { return m_units.size(); }
 
   void CreateNewUnit(UnitType unittype, Point2D const & centre) 
   {

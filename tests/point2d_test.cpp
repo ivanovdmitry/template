@@ -77,6 +77,10 @@ TEST(Point2D_test, test_calculus)
 
   Point2D p3 = { 6.0f, 8.0f };
   EXPECT_EQ(p3.Lenght(), 10.0);
+
+  Point2D p4 = { 0.0, 0.0 };
+  ASSERT_THROW(p4.Normalization() , std::invalid_argument);
+  ASSERT_THROW(GetNormal(p4) , std::invalid_argument);
 }
 
 TEST(Point2D_test, test_square_brackets)
