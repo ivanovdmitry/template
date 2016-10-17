@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <list>
+#include <algorithm>
 
 #include "Factory.hpp"
 
@@ -17,7 +18,22 @@ public:
     m_units.push_back(std::make_pair(UnitsFactory::CreateUnitByType(unittype, centre), unittype));
   }
 
-  void CheckUnits() 
+  void CheckCollision()
+  {
+    for (auto i = std::begin(m_units); i != std::end(m_units); i++)
+    {
+      if ((*i).second == UnitType::Bullet)
+      {
+        for (auto k = std::begin(m_units); k != std::end(m_units); k++)
+        {
+          //Contact(static_cast<Bullet>((*i).first.get()), (*k).first.get(), (*k).second);
+        }
+        //Contact((*i), *this,  UnitType::Space);
+      }
+    }
+  }
+
+  void CheckValidUnits() 
   {
     for (auto i = std::begin(m_units); i != std::end(m_units); i++)
       if (!(*i).first->GetIsEnabled())
@@ -28,6 +44,8 @@ public:
 
   void Update() 
   {
+    CheckCollision();
+    CheckValidUnits();
     Draw();
     for (auto const & i : m_units) 
     {
