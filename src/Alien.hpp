@@ -17,7 +17,14 @@ public:
   void Move () override
   {
     if (m_isEnabled) 
-      m_object.Move(m_object.Centre() + m_direction.GetDirectionNormal() * m_velocity);
+      try
+      {
+        m_object.Move(m_object.Centre() + m_direction.GetDirectionNormal() * m_velocity);
+      }
+      catch (std::invalid_argument const & e)
+      {
+        // 2 log file
+      }
   }
 
   void Damage (float const & damage) noexcept override

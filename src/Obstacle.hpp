@@ -7,9 +7,11 @@ class Obstacle : public IGameObject
 public:
   Obstacle() = default;
 
-  Obstacle(Box2D const & object) : m_object(object) {}
+  Obstacle(Box2D const & object) noexcept : m_object(object) {}
 
   Obstacle(Box2D && object) noexcept : m_object(std::move(object)) {}
+  
+  Obstacle(Point2D const & centre) { m_object.Move(centre); }
 
   void SetObject(Box2D const & object) noexcept { m_object = object; }
 

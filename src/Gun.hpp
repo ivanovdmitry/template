@@ -8,9 +8,11 @@ class Gun : public IGameObject
 public:
   Gun() = default;
 
-  Gun (Box2D && object) noexcept : m_object(std::move(object)) {}
+  Gun(Box2D && object) noexcept : m_object(std::move(object)) {}
 
-  void SetObject(Box2D && object)  noexcept { m_object = std::move(object); }
+  Gun(Point2D const & centre) noexcept { m_object.Move(centre); }
+
+  void SetObject(Box2D && object) noexcept { m_object = std::move(object); }
 
   void SetDirection(Ray2D && direction) noexcept { m_direction = std::move(direction); }
 
@@ -33,7 +35,7 @@ public:
       m_isEnabled = false;
   }
   
-  Bullet Shot() 
+  Bullet Shot() noexcept
   {
     if (m_cage > 0) 
     {
@@ -49,14 +51,7 @@ public:
     }
   }
 
-  void Draw() override
-  {
-    if (!m_isEnabled) 
-    {
-      // img inaccessible weapons
-      return;
-    }
-  }
+  void Draw() override { }
 
   void Move () override { }
 

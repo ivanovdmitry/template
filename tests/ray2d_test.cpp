@@ -65,10 +65,10 @@ TEST(Ray2D_test, test_Intsec)
 TEST(Ray2D_test, test_lenght)
 {
   Ray2D ray1 = {0.0, 0.0, 6.0, 8.0};
-  EXPECT_EQ(ray1.Lenght(), 10.0);
+  EXPECT_EQ(ray1.Length(), 10.0);
 
   Ray2D ray2 = {1.0, 2.0, 7.0, 10.0};
-  EXPECT_EQ(ray2.Lenght(), 10.0);
+  EXPECT_EQ(ray2.Length(), 10.0);
 }
 
 TEST(Ray2D_test, test_normalization)
@@ -82,6 +82,10 @@ TEST(Ray2D_test, test_normalization)
   ray2.Normalization();
   EXPECT_EQ(ray2.Point(), Point2D(1.0, 2.0));
   EXPECT_EQ(ray2.Vector(), Point2D(1.6, 2.8));
+
+  Ray2D ray3 = {0.0, 0.0, 0.0, 0.0};
+  ASSERT_THROW(ray3.Normalization(), std::invalid_argument);
+  ASSERT_THROW(ray3.GetDirectionNormal(), std::invalid_argument);
 }
 
 TEST(Ray2D_test, test_move_semantics)
