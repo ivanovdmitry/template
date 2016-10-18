@@ -27,7 +27,7 @@ public:
 
     auto it = v.begin();
     for (int i = 0; i < count && it != v.end(); i++, it += 2)
-      *vals[i] = { CompareWithZero::EqualWithEps(*it), CompareWithZero::EqualWithEps(*(it + 1)) };
+      *vals[i] = { CompareWithZero::FloatIsEps(*it), CompareWithZero::FloatIsEps(*(it + 1)) };
   }
   
   Ray2D(std::initializer_list<Point2D> const & lst)
@@ -35,7 +35,7 @@ public:
     Point2D * vals[] = { &m_origin, &m_direction };
     int const count = sizeof(vals) / sizeof(vals[0]);
     auto it = lst.begin();
-    for (int i = 0; i < count && it != lst.end(); i++, it ++)
+    for (int i = 0; i < count && it != lst.end(); i++, ++it)
       *vals[i] =  *(it);
   }
 
@@ -117,16 +117,16 @@ public:
 
   Point2D const & Vector() const noexcept { return m_direction; }
 
-  float const Lenght() const 
+  float const Length() const 
   { 
     Point2D temp = m_direction - m_origin;
-    return temp.Lenght();
+    return temp.Length();
   }
 
   void Normalization() 
   {
-    if (Lenght() == 0) throw std::invalid_argument("division by zero");
-    m_direction = (m_direction - m_origin) / Lenght() + m_origin;
+    if (CompareWithZero::EqualWithEps(Length())) throw std::invalid_argument("division by zero");
+    m_direction = (m_direction - m_origin) / Length() + m_origin;
   }
 
   friend std::ostream & operator << (std::ostream & os, Ray2D const & obj)

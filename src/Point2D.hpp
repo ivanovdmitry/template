@@ -99,7 +99,7 @@ public:
 
   Point2D & operator /= (float scale) 
   {
-    if (scale == 0) throw std::invalid_argument("division by zero");
+    if (CompareWithZero::EqualWithEps(scale)) throw std::invalid_argument("division by zero");
     m_x /= scale;
     m_y /= scale;
     return *this;
@@ -134,14 +134,14 @@ public:
 
   float const & y() const noexcept {  return m_y;  }
 
-  float const Lenght() const noexcept { return std::sqrt(m_x*m_x + m_y*m_y); }
+  float const Length() const noexcept { return std::sqrt(m_x*m_x + m_y*m_y); }
 
   void Normalization() 
   {
-    float lenght = Lenght();
-    if (lenght == 0.0) throw std::invalid_argument("division by zero");
-    m_x /= lenght;
-    m_y /= lenght;
+    float length = Length();
+    if (CompareWithZero::EqualWithEps(length)) throw std::invalid_argument("division by zero");
+    m_x /= length;
+    m_y /= length;
   }
 
   friend Point2D GetNormal(Point2D const & obj)

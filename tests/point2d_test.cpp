@@ -76,7 +76,7 @@ TEST(Point2D_test, test_calculus)
   ASSERT_THROW(p1 / 0.0f, std::invalid_argument);
 
   Point2D p3 = { 6.0f, 8.0f };
-  EXPECT_EQ(p3.Lenght(), 10.0);
+  EXPECT_EQ(p3.Length(), 10.0);
 
   Point2D p4 = { 0.0, 0.0 };
   ASSERT_THROW(p4.Normalization() , std::invalid_argument);
@@ -112,7 +112,7 @@ TEST(Point2D_test, test_output)
 TEST(point2d_test, test_lenght)
 {
   Point2D p = {6.0, 8.0};
-  EXPECT_EQ(p.Lenght(), 10.0);
+  EXPECT_EQ(p.Length(), 10.0);
 }
 
 TEST(point2d_test, test_normalization)

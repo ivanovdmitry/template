@@ -65,10 +65,10 @@ TEST(Ray2D_test, test_Intsec)
 TEST(Ray2D_test, test_lenght)
 {
   Ray2D ray1 = {0.0, 0.0, 6.0, 8.0};
-  EXPECT_EQ(ray1.Lenght(), 10.0);
+  EXPECT_EQ(ray1.Length(), 10.0);
 
   Ray2D ray2 = {1.0, 2.0, 7.0, 10.0};
-  EXPECT_EQ(ray2.Lenght(), 10.0);
+  EXPECT_EQ(ray2.Length(), 10.0);
 }
 
 TEST(Ray2D_test, test_normalization)

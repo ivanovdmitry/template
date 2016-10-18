@@ -23,25 +23,25 @@ public:
 
   void CheckCollision()
   {
-    for (auto i = std::begin(m_units); i != std::end(m_units); i++)
+    for (auto i = std::begin(m_units); i != std::end(m_units); ++i)
     {
       if (i->second == UnitType::Bullet)
       {
-        for (auto k = std::begin(m_units); k != std::end(m_units); k++)
+        for (auto k = std::begin(m_units); k != std::end(m_units); ++k)
         {
           if (i != k) 
           {
-            Contact(static_cast<Bullet &>(*((*i).first.get())), *((*k).first.get()), (*k).second);
+            Contact(static_cast<Bullet &>(*(i->first.get())), *(k->first.get()), k->second);
           }
         }
-        Contact(static_cast<Bullet &>(*((*i).first.get())), *this,  UnitType::Space);
+        Contact(static_cast<Bullet &>(*(i->first.get())), *this,  UnitType::Space);
       }
     }
   }
 
   void CheckValidUnits() 
   {
-    for (auto it = std::begin(m_units); it != std::end(m_units); it++)
+    for (auto it = std::begin(m_units); it != std::end(m_units); ++it)
       if (!it->first->GetIsEnabled()) 
         it = m_units.erase(it);
   }

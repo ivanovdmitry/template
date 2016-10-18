@@ -30,7 +30,7 @@ public:
 
     auto it = v.begin();
     for (int i = 0; i < count && it != v.end(); i++, it += 2)
-      *vals[i] = { CompareWithZero::EqualWithEps(*it), CompareWithZero::EqualWithEps(*(it + 1)) };
+      *vals[i] = { CompareWithZero::FloatIsEps(*it), CompareWithZero::FloatIsEps(*(it + 1)) };
     CheckBox();
   }
 
@@ -39,7 +39,7 @@ public:
     Point2D * vals[] = { &m_min, &m_max };
     int const count = sizeof(vals) / sizeof(vals[0]);
     auto it = lst.begin();
-    for (int i = 0; i < count && it != lst.end(); i++, it ++)
+    for (int i = 0; i < count && it != lst.end(); i++, ++it)
       *vals[i] =  *(it);
     CheckBox();
   }
