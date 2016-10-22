@@ -17,7 +17,7 @@ public:
 
   void SetObject(Box2D && object) noexcept { m_object = std::move(object); }
 
-  void SetIsEnabled(bool v) noexcept {m_isEnabled = v;}
+  void SetIsEnabled(bool const & isEnabled) noexcept {m_isEnabled = isEnabled;}
 
   void SetHealth(float const & health) noexcept { m_health = health; }
 

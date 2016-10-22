@@ -20,7 +20,7 @@ public:
 
   Box2D(Box2D const & obj) noexcept : m_min(obj.m_min), m_max(obj.m_max) {}
 
-  Box2D(std::initializer_list<float> const & lst)
+  Box2D(std::initializer_list<float> const & lst) noexcept
   {
     std::vector<float> v (lst.begin(), lst.end());
     while (v.size() <= 3) v.push_back(0);
@@ -34,7 +34,7 @@ public:
     CheckBox();
   }
 
-  Box2D(std::initializer_list<Point2D> const & lst)
+  Box2D(std::initializer_list<Point2D> const & lst) noexcept
   {
     Point2D * vals[] = { &m_min, &m_max };
     int const count = sizeof(vals) / sizeof(vals[0]);
@@ -77,7 +77,7 @@ public:
 
   Point2D Centre () const noexcept { return (m_min + m_max) / 2.0; }
 
-  friend bool Intsec (Box2D const & obj1, Box2D const & obj2) 
+  friend bool Intsec (Box2D const & obj1, Box2D const & obj2) noexcept
   {
     return (obj1.m_max.y() >= obj2.m_min.y()) && (obj1.m_min.y() <= obj2.m_max.y()) && 
       (obj1.m_max.x() >= obj2.m_min.x()) && (obj1.m_min.x() <= obj2.m_max.x());    

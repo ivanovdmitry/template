@@ -4,7 +4,7 @@
 
 #include "UnitType.hpp"
 
-enum class Owner {GameUnit, Player};
+enum class Owner {Alien, Player};
 
 class Bullet : public IGameObject
 {
@@ -15,19 +15,23 @@ public:
 
   Bullet(Ray2D && direction) noexcept : m_direction(std::move(direction)) {}
 
-  Bullet(Box2D && object, Ray2D &&direction) noexcept : m_object(std::move(object)), m_direction(std::move(direction)) {}
+  Bullet(Box2D && object, Ray2D && direction) noexcept : m_object(std::move(object)), m_direction(std::move(direction)) {}
   
   Bullet(Point2D const & centre) noexcept { m_object.Move(centre); }
 
-  void SetObject(Box2D && object) noexcept { m_object = std::move(object); }
+  void SetOwner(Owner const & owner) noexcept { m_owner = owner; }
 
-  void SetDirection(Ray2D && direction) noexcept { m_direction = std::move(direction); }
+  void SetPosition(Point2D const & position) noexcept { m_object.Move(position); }
+
+  void SetDirection(Ray2D const & direction) noexcept { m_direction = direction; }
 
   void SetVelocity(float const & velocity) noexcept { m_velocity = velocity; }
 
   void SetEnergy(float const & energy) noexcept { m_energy = energy; }
 
   void SetIsEnabled(bool const & is_enabled) noexcept {m_isEnabled = is_enabled; }
+
+  Owner const & GetOwner() const noexcept { return m_owner; }
 
   Box2D const & GetObject() const noexcept override { return m_object; }
 
@@ -91,7 +95,7 @@ public:
   
 protected:
   Owner m_owner = Owner::Player;
-  Box2D m_object = { 0.0f, 0.0f, 1.0f, 1.0f };
+  Box2D m_object = { 0.0f, 0.0f, 0.1f, 0.1f };
   Ray2D m_direction = { 0.0f, 0.0f, 1.0f, 0.5f };
   float m_velocity = 1.0;
   float m_energy = 1.0;

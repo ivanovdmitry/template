@@ -16,7 +16,7 @@ public:
 
   void SetDirection(Ray2D && direction) noexcept { m_direction = std::move(direction); }
 
-  void SetCage(float cage) noexcept { m_cage = cage; }
+  void SetCage(float const & cage) noexcept { m_cage = cage; }
 
   Box2D const & GetObject() const noexcept override { return m_object; }
 
@@ -34,20 +34,19 @@ public:
     if (m_health <= 0)
       m_isEnabled = false;
   }
-  
-  Bullet Shot() noexcept
+
+  using pair = std::pair<std::shared_ptr<IGameObject>, UnitType>;
+  void Shot(std::list<pair> const & lst) noexcept
   {
-    if (m_cage > 0) 
+    if (m_cage > 0)
     {
       m_cage--;
       Bullet bullet;
-      bullet.SetDirection(Ray2D(m_direction));
-      // all sets
-      return bullet;
-    }
-    else 
-    {
-      m_isEnabled = false;
+      bullet.SetOwner(m_owner);
+      bullet.SetPosition(m_object.Centre());
+      bullet.SetDirection(m_direction);
+      bullet.SetEnergy(m_energy);
+      lst.push_back(std::make_pair(std::make_shared<Bullet>(bullet), UnitType::Bullet));
     }
   }
 
@@ -62,9 +61,11 @@ public:
     return os;
   }
 
-protected: 
+protected:
+  Owner m_owner = Owner::Player;
   Box2D m_object = { 0.0f, 0.0f, 1.0f, 1.0f };
   Ray2D m_direction = { 0.5f, 0.5f, 1.0f, 0.5f };
+  float m_energy = 1.0f;
   int m_cage = 5;
   float m_health = 100.0f;
   bool m_isEnabled = true;

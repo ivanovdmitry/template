@@ -1,6 +1,8 @@
 #pragma once
 
 #include "IGameObject.hpp"
+#include "Bullet.hpp"
+#include "Space.hpp"
 
 class Alien : public IGameObject
 {
@@ -33,7 +35,22 @@ public:
     if (m_health <= 0)
       m_isEnabled = false;
   }
- 
+
+  using pair = std::pair<std::shared_ptr<IGameObject>, UnitType>;
+  void Shot(std::list<pair> const & lst) noexcept
+  {
+    if (m_cage > 0)
+    {
+      m_cage--;
+      Bullet bullet;
+      bullet.SetOwner(m_owner);
+      bullet.SetPosition(m_object.Centre());
+      bullet.SetDirection(m_direction);
+      bullet.SetEnergy(m_energy);
+      lst.push_back(std::make_pair(std::make_shared<Bullet>(bullet), UnitType::Bullet));
+    }
+  }
+
   void SetObject(Box2D && object) noexcept { m_object = std::move(object); }
 
   void SetDirection(Ray2D && direction) noexcept { m_direction = std::move(direction); }
@@ -60,8 +77,11 @@ public:
   }
 
 protected:
+  Owner m_owner = Owner::Alien;
   Box2D m_object = { 0.0f, 0.0f, 1.0f, 1.0f };
   Ray2D m_direction = { 0.0f, 0.0f, 1.0f, 0.0f };
+  int m_cage = 100;
+  float m_energy = 1.0f;
   float m_velocity = 1.0f;
   float m_health = 100.0f;
   bool m_isEnabled = true;
