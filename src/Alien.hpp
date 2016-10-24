@@ -34,7 +34,7 @@ public:
   }
 
   using pair = std::pair<std::shared_ptr<IGameObject>, UnitType>;
-  void Shot(std::list<pair> const & lst) noexcept
+  void Shot(/*std::list<pair> const & lst*/) noexcept
   {
     if (m_cage > 0)
     {
@@ -44,7 +44,7 @@ public:
       bullet.SetPosition(m_object.Centre());
       bullet.SetDirection(m_direction);
       bullet.SetEnergy(m_energy);
-      lst.push_back(std::make_pair(std::make_shared<Bullet>(bullet), UnitType::Bullet));
+     // lst.push_back(std::make_pair(std::make_shared<Bullet>(bullet), UnitType::Bullet));
     }
   }
 

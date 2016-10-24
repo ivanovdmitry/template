@@ -1,11 +1,14 @@
 #pragma once
 
 #include <memory>
+
 #include "Alien.hpp"
 #include "Bullet.hpp"
 #include "Gun.hpp"
 #include "Obstacle.hpp"
 #include "UnitType.hpp"
+
+class Alien; 
 
 class UnitsFactory
 {
