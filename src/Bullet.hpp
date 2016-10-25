@@ -3,6 +3,9 @@
 #include "IGameObject.hpp"
 #include "UnitType.hpp"
 
+
+class ExceptionEmptyChamber: public std::exception {};
+
 enum class Owner { Alien, Player };
 
 class Bullet : public IGameObject

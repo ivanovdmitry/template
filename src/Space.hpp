@@ -6,8 +6,6 @@
 #include <iterator> 
 
 #include "Factory.hpp"
-//#include "IGameObject.hpp"
-#include "UnitType.hpp"
 
 class Space
 {
@@ -20,7 +18,7 @@ public:
 
   void CreateNewUnit(UnitType unittype, Point2D const & centre)
   {
-    //m_units.push_back(std::make_pair(Factory::CreateUnitByType(unittype, centre), unittype));
+    m_units.push_back(std::make_pair(UnitsFactory::CreateUnitByType(unittype, centre), unittype));
   }
 
   void CheckCollision()

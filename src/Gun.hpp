@@ -34,19 +34,18 @@ public:
       m_isEnabled = false;
   }
 
-  using pair = std::pair<std::shared_ptr<IGameObject>, UnitType>;
-  void Shot(/*std::list<pair> const & lst*/) noexcept
+  void Shot() 
   {
     if (m_cage > 0)
     {
       m_cage--;
       Bullet bullet;
-      bullet.SetOwner(m_owner);
+      bullet.SetOwner(Owner::Player);
       bullet.SetPosition(m_object.Centre());
       bullet.SetDirection(m_direction);
       bullet.SetEnergy(m_energy);
-      //lst.push_back(std::make_pair(std::make_shared<Bullet>(bullet), UnitType::Bullet));
     }
+    throw ExceptionEmptyChamber();
   }
 
   void Draw() override {}
@@ -60,7 +59,6 @@ public:
   }
 
 protected:
-  Owner m_owner = Owner::Player;
   Box2D m_object = {0.0f, 0.0f, 1.0f, 1.0f};
   Ray2D m_direction = {0.5f, 0.5f, 1.0f, 0.5f};
   float m_energy = 1.0f;
