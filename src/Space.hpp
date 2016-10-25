@@ -18,7 +18,7 @@ public:
 
   void CreateNewUnit(UnitType unittype, Point2D const & centre)
   {
-    m_units.push_back(std::make_pair(UnitsFactory::CreateUnitByType(unittype, centre), unittype));
+    m_units.push_back(std::make_pair(Factory::CreateUnitByType(unittype, centre), unittype));
   }
 
   void CheckCollision()

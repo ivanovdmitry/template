@@ -10,7 +10,7 @@
 
 class Alien; 
 
-class UnitsFactory
+class Factory
 {
 public:
   template<typename... Args>
