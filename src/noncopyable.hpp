@@ -6,6 +6,6 @@ protected:
   constexpr noncopyable() = default;
   ~noncopyable() = default;
 
-  noncopyable(const noncopyable &) = delete;
-  noncopyable & operator =(const noncopyable &) = delete;
+  noncopyable(noncopyable const &) = delete;
+  noncopyable & operator =(noncopyable const &) = delete;
 };

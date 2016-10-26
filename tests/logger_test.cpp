@@ -6,13 +6,18 @@
 
 TEST(logger_test, test_write2file)
 {
-  auto & logger = Singleton<Logger>::Instance();
-  logger.log("this is the test", Logger::m_LogLevelDebug);
+  Singleton<Logger>::Instance().log("this is the test", Logger::Debug);
 }
-
 
 
 TEST(logger_test, test_write2file_stream)
 {
-  Singleton<Logger>::Instance().log("this is the test", Logger::m_LogLevelDebug);
+  Log.log("test_write2file_stream1", Logger::Debug);
+}
+
+TEST(logger_test, test_write2file_stream2)
+{
+  Log(Logger::Debug) << "test_write2file Debug";
+  Log(Logger::Info)  << "test_write2file Info";
+  Log(Logger::Error) << "test_write2file Error";
 }

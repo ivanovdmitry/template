@@ -1,7 +1,7 @@
 #include "Logger.hpp"
 
-const std::string Logger::m_LogLevelDebug = "DEBUG";
-const std::string Logger::m_LogLevelInfo = "INFO";
-const std::string Logger::m_LogLevelError = "ERROR";
+const std::string Logger::Debug = "DEBUG";
+const std::string Logger::Info = "INFO";
+const std::string Logger::Error = "ERROR";
 
 const char* const Logger::m_FileName = "log.txt";
