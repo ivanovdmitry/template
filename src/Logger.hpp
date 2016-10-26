@@ -40,6 +40,18 @@ public:
     std::ostringstream os;
     os << obj;
     log(os.str(), m_logLevel);
+    return *this;
+  }
+
+  template<typename T, template<typename, typename...> class C, typename... Args>
+  Logger & operator << (C<T, Args...> const & objs)
+  {
+    std::ostringstream os;
+    os << "[collection] : ";
+    for (auto const & obj : objs)
+      os << obj << ", ";
+    log(os.str(), m_logLevel);
+    return *this;
   }
   
 protected:

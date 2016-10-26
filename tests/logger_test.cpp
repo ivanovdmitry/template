@@ -1,3 +1,6 @@
+#include <vector>
+#include <list>
+
 #include "Logger.hpp"
 #include "Gun.hpp"
 #include "Alien.hpp"
@@ -58,4 +61,22 @@ TEST(logger_test, test_Ray2D)
 TEST(logger_test, test_Point2D)
 {
   Log(Logger::Debug) << Point2D();
+}
+
+TEST(logger_test, test_vector)
+{
+  std::vector<Point2D> v;
+  v.push_back(Point2D());
+  v.push_back(Point2D(1,2));
+  v.push_back(Point2D(5,8));
+  Log(Logger::Debug) << v;
+}
+
+TEST(logger_test, test_list)
+{
+  std::list<Point2D> v;
+  v.push_back(Point2D());
+  v.push_back(Point2D(1,2));
+  v.push_back(Point2D(5,8));
+  Log(Logger::Debug) << v;
 }
