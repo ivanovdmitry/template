@@ -1,33 +1,60 @@
 #pragma once
 
 #include <iostream>
+
 #include <string>
+#include <sstream>
 #include <fstream>
 
+#include "IGameObject.hpp"
 #include "Singleton.hpp"
 
 
-
-class Logger 
+class Logger : public Singleton <Logger>
 {
 public:
+  /* я думаю тут будет лучше сделать исключение из codestyle */
+  static const std::string Debug;
+  static const std::string Info;
+  static const std::string Error;
 
-  void log(const std::string& message, const std::string& logLevel)
+  void log(std::string const & message, std::string const & logLevel)
   {
-    m_outputStream.open(m_FileName, std::ios_base::app);
-    print(message, logLevel);
-    m_outputStream.close();
+    PrintToFile(message, logLevel);
   }
 
-  static const std::string m_LogLevelDebug;
-  static const std::string m_LogLevelInfo;
-  static const std::string m_LogLevelError;
+  Logger & operator() (std::string const & logLevel)
+  {
+    m_logLevel = logLevel;
+    return *this;
+  }
+
+  Logger & operator<<(std::string const & message) 
+  {
+    log(message, m_logLevel);
+  }
+
+  template <typename T>
+  Logger & operator<<(T const & obj) 
+  {
+    std::ostringstream os;
+    os << obj;
+    log(os.str(), m_logLevel);
+  }
   
 protected:
   std::ofstream m_outputStream;
   static const char* const m_FileName;
-  void print(const std::string& message, const std::string& logLevel)
+  std::string m_logLevel;
+
+  void PrintToFile(std::string const & message, std::string const & logLevel)
   { 
+    m_outputStream.open(m_FileName, std::ios_base::app);
     m_outputStream << "[" << logLevel << "] : " << message << std::endl; 
+    m_outputStream.close();
   }
+
+  friend class Singleton<Logger>;
 };
+
+#define Log Singleton<Logger>::Instance()
