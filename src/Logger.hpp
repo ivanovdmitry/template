@@ -1,15 +1,19 @@
 #pragma once
 
 #include <iostream>
+
 #include <string>
+#include <sstream>
 #include <fstream>
 
+#include "IGameObject.hpp"
 #include "Singleton.hpp"
 
 
 class Logger : public Singleton <Logger>
 {
 public:
+  /* я думаю тут будет лучше сделать исключение из codestyle */
   static const std::string Debug;
   static const std::string Info;
   static const std::string Error;
@@ -28,6 +32,14 @@ public:
   Logger & operator<<(std::string const & message) 
   {
     log(message, m_logLevel);
+  }
+
+  template <typename T>
+  Logger & operator<<(T const & obj) 
+  {
+    std::ostringstream os;
+    os << obj;
+    log(os.str(), m_logLevel);
   }
   
 protected:
