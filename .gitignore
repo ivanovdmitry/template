@@ -81,3 +81,4 @@ CTestTestfile.cmake
 cmake_install.cmake
 template
 template_test
+log.txt
