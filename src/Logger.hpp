@@ -56,12 +56,12 @@ public:
   
 protected:
   std::ofstream m_outputStream;
-  static const char* const m_FileName;
+  static const char* const m_fileName;
   std::string m_logLevel;
 
   void PrintToFile(std::string const & message, std::string const & logLevel)
   { 
-    m_outputStream.open(m_FileName, std::ios_base::app);
+    m_outputStream.open(m_fileName, std::ios_base::app);
     m_outputStream << "[" << logLevel << "] : " << message << std::endl; 
     m_outputStream.close();
   }
