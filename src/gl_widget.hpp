@@ -5,6 +5,8 @@
 #include <QTime>
 #include "textured_rect.hpp"
 
+#include <array>
+
 class MainWindow;
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLTexture)
@@ -19,14 +21,24 @@ public:
   ~GLWidget();
 
 protected:
-  void resizeGL(int w, int h) Q_DECL_OVERRIDE;
-  void paintGL() Q_DECL_OVERRIDE;
-  void initializeGL() Q_DECL_OVERRIDE;
+  void resizeGL(int w, int h) override;
+  void paintGL() override;
+  void initializeGL() override;
 
   void Update(float elapsedSeconds);
   void Render();
 
+  void mousePressEvent(QMouseEvent * e) override;
+  void mouseDoubleClickEvent(QMouseEvent * e) override;
+  void mouseMoveEvent(QMouseEvent * e) override;
+  void mouseReleaseEvent(QMouseEvent * e) override;
+  void wheelEvent(QWheelEvent * e) override;
+  void keyPressEvent(QKeyEvent * e) override;
+  void keyReleaseEvent(QKeyEvent * e) override;
+
 private:
+  int L2D(int px) const { return px * devicePixelRatio(); }
+
   MainWindow * m_mainWindow;
 
   unsigned int m_frames = 0;
@@ -36,4 +48,7 @@ private:
 
   QOpenGLTexture * m_texture = nullptr;
   TexturedRect * m_texturedRect = nullptr;
+
+  QVector2D m_position = QVector2D(200, 200);
+  std::array<bool, 4> m_directions = { false, false, false, false };
 };
