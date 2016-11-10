@@ -32,8 +32,11 @@ TEST(gun_test, test_update)
   {
     gun.Shot();
     EXPECT_EQ(gun.GetCage(), i-1);
-    EXPECT_EQ(gun.GetIsEnabled(), true);
+    EXPECT_EQ(gun.GetIsEnabled(), true); 
   }
+  EXPECT_THROW(gun.Shot(), ExceptionEmptyChamber);
+  EXPECT_EQ(gun.GetCage(), 0);
+  EXPECT_EQ(gun.GetIsEnabled(), false);
 }
 
 TEST(gun_test, test_output)
