@@ -45,7 +45,11 @@ public:
       bullet.SetDirection(m_direction);
       bullet.SetEnergy(m_energy);
     }
-    throw ExceptionEmptyChamber();
+    else
+    {
+      m_isEnabled = false;
+      throw ExceptionEmptyChamber();
+    }
   }
 
   void Draw() override {}

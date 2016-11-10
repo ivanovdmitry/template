@@ -1,7 +1,5 @@
-#include "Space.hpp"
-
 #include "gtest/gtest.h"
-
+#include "Space.hpp"
 #include <iostream>
 
 TEST(space_test, test_creation)
