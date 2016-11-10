@@ -29,6 +29,7 @@ public:
   }
 };
 
+
 TEST(Observer_test, listener)
 {
   Listener l1("One");
@@ -57,4 +58,3 @@ TEST(Observer_test, disp)
 
   EXPECT_EQ(cout.str(), "Listener One; wowowowow Listener two; wowowowow ");
 }
-

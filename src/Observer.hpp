@@ -22,7 +22,6 @@ using ObserverPtr = std::shared_ptr<IObserver>;
 class Dispatcher
 {
 public:
-
   void Subscribe(ObserverPtr const & newSubscriber)
   {
     for (auto it = std::begin(m_subscriberList); it != std::end(m_subscriberList); ++it)
@@ -45,8 +44,7 @@ public:
     for (auto const i : m_subscriberList)
       i->SendMessage(msg);
   }
-
 protected:
+  // вот я думаю, или использовать std::vector<std::reference_wrapper<IObserver>> 
   std::list<ObserverPtr> m_subscriberList;
 };
-
