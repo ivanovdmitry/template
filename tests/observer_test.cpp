@@ -12,17 +12,17 @@ class Listener : public IObserver
   std::string m_n;
 public:
   Listener(std::string n) : m_n(n) {}
-  void SendMessage(MessageHandler msg) override
+  void SendMessage(MessageHandler const & msg) override
   {
     cout << "Listener " << m_n << "; ";
     msg();
   }
 
-  std::size_t hash() override
+  std::size_t hash() const override
   {
     return std::hash<std::string>()(m_n);
   }
-  bool operator==(IObserver & b) override
+  bool operator==(IObserver const & b) override
   {
     if (hash() == b.hash()) return true;
     return false;

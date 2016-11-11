@@ -12,9 +12,9 @@ class IObserver // Subscriber
 {
 public:
   virtual ~IObserver() {}
-  virtual void SendMessage(MessageHandler) = 0;
-  virtual bool operator==(IObserver &) = 0;
-  virtual std::size_t hash() = 0;
+  virtual void SendMessage(MessageHandler const &) = 0;
+  virtual bool operator==(IObserver const &) = 0;
+  virtual std::size_t hash() const = 0;
 };
 
 using ObserverPtr = std::shared_ptr<IObserver>;
@@ -24,12 +24,9 @@ class Dispatcher
 public:
   void Subscribe(ObserverPtr const & newSubscriber)
   {
-    for (auto it = std::begin(m_subscriberList); it != std::end(m_subscriberList); ++it)
-    {
-      if (*it == newSubscriber)
-        return;
-    }
-    m_subscriberList.push_back(newSubscriber);
+    auto it = std::find(m_subscriberList.begin(), m_subscriberList.end(), newSubscriber);
+    if (it == m_subscriberList.end())
+      m_subscriberList.push_back(newSubscriber);
   }
 
   void Unsubscribe(ObserverPtr const & subscriber)
@@ -41,7 +38,7 @@ public:
 
   void SendMessage(MessageHandler const & msg)
   {
-    for (auto const i : m_subscriberList)
+    for (auto const & i : m_subscriberList)
       i->SendMessage(msg);
   }
 protected:
