@@ -1,11 +1,6 @@
 #include "settings_window.hpp"
 
 #include <QApplication>
-#include <QPushButton>
-#include <QWidget>
-#include <QLineEdit>
-#include <QComboBox>
-#include <QFormLayout>
 
 #include "gl_widget.hpp"
 
@@ -14,20 +9,23 @@ typedef void (QWidget::*QWidgetVoidSlot)();
 SettingsWindow::SettingsWindow()
 {
   QWidget * centralWidget = new QWidget(this);
-  setCentralWidget(centralWidget);
+  //setCentralWidget(centralWidget);
 
-  QPushButton * button = new QPushButton("Сохранить");
-  QLineEdit * name = new QLineEdit();
+  button = new QPushButton("Сохранить");
+  connect(button, SIGNAL(clicked()), this, SLOT( OnButtonPressed() ));
 
-  QComboBox * level = new QComboBox(this);
-  level->addItem("Простой", 1);
-  level->addItem("Средний", 2);
-  level->addItem("Сложный", 3);
+  name = new QLineEdit();
+
+  level = new QComboBox(this);
+
+  level->addItem("Простой", static_cast<int>(GameLevel::Easy));
+  level->addItem("Средний", static_cast<int>(GameLevel::Medium));
+  level->addItem("Сложный", static_cast<int>(GameLevel::Hard));
   level->setCurrentIndex(1);
-  connect(level, SIGNAL(activated(int)), this, SLOT( /* bind to slot */ ));
+  connect(level, SIGNAL(LavelClicked(int)), this, SLOT( OnLevelChanged() ));
 
 
-  QFormLayout * layout = new QFormLayout(centralWidget);
+  layout = new QFormLayout(centralWidget);
 
 
   layout->addRow("Твое имя: ", name);
