@@ -9,7 +9,7 @@ typedef void (QWidget::*QWidgetVoidSlot)();
 SettingsWindow::SettingsWindow()
 {
   QWidget * centralWidget = new QWidget(this);
-  //setCentralWidget(centralWidget);
+  setCentralWidget(centralWidget);
 
   button = new QPushButton("Сохранить");
   connect(button, SIGNAL(clicked()), this, SLOT( OnButtonPressed() ));

@@ -12,7 +12,6 @@
 #include <QFormLayout>
 #include <QMessageBox>
 
-
 #include "Settings.hpp"
 
 
