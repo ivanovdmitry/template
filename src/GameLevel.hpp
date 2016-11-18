@@ -1,3 +1,3 @@
 #pragma once
 
-enum class GameLevel : int {Easy, Medium, Hard};
+enum class GameLevel : unsigned char {Easy, Medium, Hard};

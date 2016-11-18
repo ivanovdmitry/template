@@ -29,10 +29,6 @@ public:
     msgBox.exec();
   }
 
-signals:
-  void SaveClicked();
-  void LavelClicked();
-
 private slots:
   void OnButtonPressed()
   {

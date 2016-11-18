@@ -18,11 +18,11 @@ SettingsWindow::SettingsWindow()
 
   level = new QComboBox(this);
 
-  level->addItem("Простой", static_cast<int>(GameLevel::Easy));
-  level->addItem("Средний", static_cast<int>(GameLevel::Medium));
-  level->addItem("Сложный", static_cast<int>(GameLevel::Hard));
+  level->addItem("Простой", static_cast<unsigned char>(GameLevel::Easy));
+  level->addItem("Средний", static_cast<unsigned char>(GameLevel::Medium));
+  level->addItem("Сложный", static_cast<unsigned char>(GameLevel::Hard));
   level->setCurrentIndex(1);
-  connect(level, SIGNAL(LavelClicked(int)), this, SLOT( OnLevelChanged() ));
+  connect(level, SIGNAL(activated(int)), this, SLOT( OnLevelChanged() ));
 
 
   layout = new QFormLayout(centralWidget);
