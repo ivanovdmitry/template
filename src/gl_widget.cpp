@@ -115,6 +115,10 @@ void GLWidget::paintGL()
   {
     m_time.start();
     m_frames = 0;
+    for (auto const i : m_stars)
+    {
+      i->Update();
+    }
   }
   ++m_frames;
   update();
@@ -138,11 +142,6 @@ void GLWidget::Update(float elapsedSeconds)
     m_position.setX(m_position.x() - kSpeed * elapsedSeconds);
   if (m_directions[kRightDirection])
     m_position.setX(m_position.x() + kSpeed * elapsedSeconds);
-
-  for (auto const i : m_stars)
-  {
-    i->Update(elapsedSeconds);
-  }
 }
 
 void GLWidget::Render()
