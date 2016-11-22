@@ -25,7 +25,7 @@ public:
 
   void Update(float elapsedSeconds)
   {
-    unsigned char size = m_sizeTmp.width();
+    unsigned char size = 0;
 
     static float const pi = std::acos(-1);
     static float time = 0.0; 
