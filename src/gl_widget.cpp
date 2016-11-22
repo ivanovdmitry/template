@@ -115,7 +115,7 @@ void GLWidget::paintGL()
   {
     m_time.start();
     m_frames = 0;
-    for (auto const i : m_stars)
+    for (auto const & i : m_stars)
     {
       i->Update();
     }

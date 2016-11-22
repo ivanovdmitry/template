@@ -33,11 +33,9 @@ public:
     m_size = QSize(size, size);
   }
 
-  QVector2D const & GetPosition() const
-  { return m_position; }
+  QVector2D const & GetPosition() const { return m_position; }
 
-  QSize const & GetSize() const
-  { return m_size; }
+  QSize const & GetSize() const { return m_size; }
 private:
   QVector2D m_position;
   QSize m_size;
