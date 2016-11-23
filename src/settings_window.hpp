@@ -32,19 +32,20 @@ public:
 private slots:
   void OnButtonPressed()
   {
-    m_settings.SetName(name->text().toUtf8().constData());
+    m_settings.SetName(m_name->text().toUtf8().constData());
+    m_settings.Save();
     ShowMessage();
   }
 
   void OnLevelChanged()
   {
-    m_settings.SetLevel(static_cast<GameLevel>(level->currentIndex()));
+    m_settings.SetLevel(static_cast<GameLevel>(m_level->currentIndex()));
   }
 
 private:
   Settings m_settings;
-  QComboBox * level;
-  QLineEdit * name;
-  QFormLayout * layout;
-  QPushButton * button;
+  QComboBox * m_level;
+  QLineEdit * m_name;
+  QFormLayout * m_layout;
+  QPushButton * m_button;
 };
