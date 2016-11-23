@@ -11,6 +11,7 @@
 
 #include <iostream>
 
+
 #include "main_window.hpp"
 
 namespace
@@ -45,14 +46,20 @@ GLWidget::GLWidget(MainWindow * mw, QColor const & background)
   : m_mainWindow(mw)
   , m_background(background)
 {
-  setMinimumSize(1024, 768);
+  setMinimumSize(800, 600);
   setFocusPolicy(Qt::StrongFocus);
+
+  for (auto i = 0; i !=  10; ++i)
+  {
+    m_stars.push_back(std::make_shared<Star>());
+  }
 }
 
 GLWidget::~GLWidget()
 {
   makeCurrent();
-  delete m_texture;
+  delete m_textureAlien;
+  delete m_textureStar;
   delete m_texturedRect;
   doneCurrent();
 }
@@ -64,7 +71,8 @@ void GLWidget::initializeGL()
   m_texturedRect = new TexturedRect();
   m_texturedRect->Initialize(this);
 
-  m_texture = new QOpenGLTexture(QImage("data/alien.png"));
+  m_textureAlien = new QOpenGLTexture(QImage("data/alien.png"));
+  m_textureStar = new QOpenGLTexture(QImage("data/star.png"));
 
   m_time.start();
 }
@@ -130,13 +138,21 @@ void GLWidget::Update(float elapsedSeconds)
     m_position.setX(m_position.x() - kSpeed * elapsedSeconds);
   if (m_directions[kRightDirection])
     m_position.setX(m_position.x() + kSpeed * elapsedSeconds);
+
+  for (auto const & i : m_stars)
+  {
+    i->Update(elapsedSeconds);
+  }
 }
 
 void GLWidget::Render()
 {
-  m_texturedRect->Render(m_texture, m_position, QSize(128, 128), m_screenSize);
-  m_texturedRect->Render(m_texture, QVector2D(400, 400), QSize(128, 128), m_screenSize);
-  m_texturedRect->Render(m_texture, QVector2D(600, 600), QSize(128, 128), m_screenSize);
+  m_texturedRect->Render(m_textureAlien, m_position, QSize(128, 128), m_screenSize);
+  m_texturedRect->Render(m_textureAlien, QVector2D(600, 600), QSize(128, 128), m_screenSize);
+  for (auto const i : m_stars)
+  {
+    m_texturedRect->Render(m_textureStar, i->GetPosition(), i->GetSize(), m_screenSize);
+  }
 }
 
 void GLWidget::mousePressEvent(QMouseEvent * e)

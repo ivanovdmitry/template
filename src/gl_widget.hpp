@@ -6,6 +6,10 @@
 #include "textured_rect.hpp"
 
 #include <array>
+#include <vector>
+#include <memory>
+
+#include <Star.hpp>
 
 class MainWindow;
 
@@ -46,9 +50,13 @@ private:
   QColor m_background;
   QSize m_screenSize;
 
-  QOpenGLTexture * m_texture = nullptr;
+  QOpenGLTexture * m_textureAlien = nullptr;
+  QOpenGLTexture * m_textureStar = nullptr;
+
   TexturedRect * m_texturedRect = nullptr;
 
   QVector2D m_position = QVector2D(200, 200);
   std::array<bool, 4> m_directions  = { {false, false, false, false} };
+
+  std::vector<std::shared_ptr<Star>> m_stars;
 };
