@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
-#include <iostream>
+
 class Star
 {
 public:
@@ -17,8 +17,8 @@ public:
     unsigned char size = std::rand() % 8;
     m_sizeTmp = QSize(size, size);
     m_size = size;
-    nu = static_cast<float> (std::rand() % 2);
-    fi = (static_cast<float> (std::rand() % 1000))/1000.0;
+    m_nu = static_cast<float> (std::rand() % 2);
+    m_fi = (static_cast<float> (std::rand() % 1000))/1000.0;
     
     m_position = QVector2D(std::rand() % 800, std::rand() % 600);
   }
@@ -31,7 +31,7 @@ public:
     static float time = 0.0; 
 
     time += elapsedSeconds;
-    size = m_size*std::abs(std::sin(2.0*pi*nu*time*0.001 + fi));
+    size = m_size*std::abs(std::sin(2.0*pi*m_nu*time*0.001 + m_fi));
    
     m_sizeTmp = QSize(size, size);
   }
@@ -43,7 +43,7 @@ private:
   QVector2D m_position;
   QSize m_sizeTmp;
 
-  float nu; //Hz
-  float fi; 
+  float m_nu; //Hz
+  float m_fi; 
   unsigned char m_size;
 };
